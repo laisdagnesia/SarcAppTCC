@@ -4,7 +4,6 @@ import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from '@react-navigation/stack';
 import { NavegacaoPrincipalParams } from '../navigation/config';
 import { Button } from '@rneui/themed';
-//import RNPickerSelect from 'react-native-picker-select';
 import { Picker } from '@react-native-picker/picker'
 import { usePacienteContext } from "../../context/pacientes";
 
@@ -27,26 +26,10 @@ export function FormularioSarcFScreen (props: any) {
         case "nenhuma": return 0;
         case "alguma": return 1; 
         case "muito": return 2; 
-        // case "incapaz": return 3; 
         default: return 0;
       }
     }
 
-    // const handleAvancar = async () => {
-    //   let pontos = 0;
-    //   pontos += getPontos(forca);
-    //   pontos += getPontos(assistencia);
-    //   pontos += getPontos(levantar);
-    //   pontos += getPontos(subir);
-    //   pontos += getPontos(quedas);
-
-    //   console.log(`Pontos totais: ${pontos}`);
-     
-    //   setFormularioSarcF({ forca, assistencia, levantar, subir, quedas });
-    //   setPontosSarc(pontos);
-    //   navigation.navigate('formularioDesempenho');
-    // }
-    
     const handleAvancar = async () => {
       if (!forca || !assistencia || !levantar || !subir || !quedas) {
         Alert.alert(

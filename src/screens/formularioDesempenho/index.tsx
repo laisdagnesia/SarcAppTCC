@@ -24,15 +24,12 @@ export function FormularioDesempenhoScreen (props: any) {
     const { setDesempenho, desempenho } = usePacienteContext();
 
     const handleInputChange = (text) => {
-      // Substitui vírgulas por pontos
       const formattedText = text.replace(',', '.');
       
-      // Verifica se o texto é um número válido
       if (/^\d*\.?\d*$/.test(formattedText)) {
         setMassaMuscularApendicular(formattedText)
       }
     }
-    //const { setDesempenho } = usePacienteContext();
 
     //==================================================
         // TESTE PARA SALVAR INFORMACOES
@@ -56,8 +53,7 @@ export function FormularioDesempenhoScreen (props: any) {
   useEffect(() => {
     // Inicializa os estados locais com os dados do contexto
     if (desempenho) {
-    //   setForcaPalmar(desempenho.forcaPalmar || '');
-    setForcaPalmar(desempenho.forcaPalmar?.toString() || '');
+      setForcaPalmar(desempenho.forcaPalmar?.toString() || '');
       setTempoLevantar(desempenho.tempoLevantar || '');
       setMassaMuscularApendicular(desempenho.massaMuscularApendicular || '');
       setIndiceMassaMuscularApendicular(desempenho.indiceMassaMuscularApendicular || '');
@@ -97,62 +93,21 @@ export function FormularioDesempenhoScreen (props: any) {
     keyboardType="number-pad"
     value={tempoLevantar} />
 <Text style={[styles.titulo, { marginBottom:20 }]}>» MASSA MUSCULAR</Text>
-{/* <Text style={[styles.texto]}>Massa muscular esquelética apendicular (MMEA)</Text>
-<Input placeholder='Ex: 20.5 ou 2.5'
-    placeholderTextColor={"white"}    
-    inputStyle={{color:"white"}} 
-    onChangeText={setMassaMuscularApendicular}
-    keyboardType="number-pad"
-    value={massaMuscularApendicular}/>
-     */}
 <Text style={[styles.texto]}>Massa muscular esquelética apendicular (MMEA)</Text>
-{/* <MaskedTextInput
-        mask="99.99"
-        placeholder=""
-        onChangeText={(text, rawText) => setMassaMuscularApendicular(rawText)}
-        keyboardType="number-pad"
-        value={massaMuscularApendicular}
-        style={styles.mask}
-      /> */}
-{/* <Input
-  placeholder=""
-  placeholderTextColor="black" 
-  onChangeText={(text) => {
-    if (text.trim() === '') {
-      setMassaMuscularApendicular(null); // Define altura como null
-    } else {
-      let formattedText = text.replace(',', '.'); // Substitui vírgula por ponto
-      if (!isNaN(formattedText) && formattedText.trim() !== '') {
-        let numericValue = parseFloat(formattedText);
-
-        // Se for maior que 100, assume que está em centímetros e converte para metros
-        if (numericValue > 100) {
-          numericValue = numericValue / 10;
-        }
-        setMassaMuscularApendicular(numericValue); // Define altura como número
-      }
-    }
-  }}
-  value={massaMuscularApendicular === null ? '' : massaMuscularApendicular.toString()} // Converte altura para string para exibir no campo
-  keyboardType="number-pad"
-  style={{color: 'black',marginBottom:-5 }}
-/> */}
 
 <Input
       placeholder=''
       inputStyle={{ color: "black" }}
       onChangeText={handleInputChange}
-      keyboardType="numeric" // Usar "numeric" para teclado numérico
+      keyboardType="numeric"
       value={massaMuscularApendicular}
     />
-
 
 <Text style={[styles.texto]}>Índice de massa muscular esquelética apendicular (kg/m²) </Text>
 <Input placeholder=''    
     inputStyle={{color:"black"}} 
     onChangeText={setIndiceMassaMuscularApendicular}
     keyboardType="number-pad"
-   // keyboardType="numeric"
     value={indiceMassaMuscularApendicular}/>
 
     <Text style={[styles.titulo, {marginBottom:20 }]}>» DESEMPENHO FISICO</Text>

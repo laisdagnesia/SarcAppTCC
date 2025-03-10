@@ -43,15 +43,11 @@ export function CadastroPaciente (props: any) {
       navigation.navigate('formularioSarcF')
     }
 
-
-     // Função genérica para formatar e validar números
   const formatarNumero = (text) => {
     let formattedText = '';
 
-    // Itera sobre cada caractere do texto
     for (let i = 0; i < text.length; i++) {
       const char = text[i];
-      // Substitui vírgula por ponto
       if (char === ',') {
         formattedText += '.';
       } else {
@@ -59,14 +55,12 @@ export function CadastroPaciente (props: any) {
       }
     }
 
-    // Verifica se o texto é um número válido
     if (/^\d*\.?\d*$/.test(formattedText)) {
       return formattedText;
     }
-    return ''; // Retorna uma string vazia se não for válido
+    return ''; 
   };
 
-  // Função para atualizar o estado de qualquer variável
   const handleInputChange = (text, setStateFunction) => {
     const formattedText = formatarNumero(text);
     setStateFunction(formattedText);
@@ -116,45 +110,32 @@ export function CadastroPaciente (props: any) {
         <Input
          placeholder="Ex: 65.8"
          placeholderTextColor="black" 
-        // onChangeText={(text) => handleInputChange(text, setPeso)}
-        // keyboardType="number-pad"
         keyboardType="numeric"
         onChangeText={setPeso}
          value={peso}
           style={{color: 'black',marginBottom:-5}}
         />
-      {/* <Text style={[styles.texto]}>Altura</Text>
-        <Input
-          placeholder="Ex: 1.70"
-          placeholderTextColor="black" 
-          onChangeText={setAltura}
-          value={altura}
-          keyboardType="number-pad"
-          style={{color: 'white',marginBottom:-5 }}
-        /> */}
 
 <Text style={[styles.texto]}>Altura</Text>
 <Input
   placeholder="Em cm"
-  // placeholder="Ex: 1.70 ou 170"
+
   placeholderTextColor="black" 
   onChangeText={(text) => {
     if (text.trim() === '') {
-      setAltura(null); // Define altura como null
+      setAltura(null); 
     } else {
-      let formattedText = text.replace(',', '.'); // Substitui vírgula por ponto
+      let formattedText = text.replace(',', '.'); 
       if (!isNaN(formattedText) && formattedText.trim() !== '') {
         let numericValue = parseFloat(formattedText);
-
-        // Se for maior que 100, assume que está em centímetros e converte para metros
-        if (numericValue > 100) {
+      if (numericValue > 100) {
           numericValue = numericValue / 100;
         }
-        setAltura(numericValue); // Define altura como número
+        setAltura(numericValue); 
       }
     }
   }}
-  value={altura === null ? '' : altura.toString()} // Converte altura para string para exibir no campo
+  value={altura === null ? '' : altura.toString()} 
   keyboardType="number-pad"
   style={{color: 'black',marginBottom:-5 }}
 />
@@ -165,16 +146,12 @@ export function CadastroPaciente (props: any) {
          value={circBraco}
          onChangeText={(text) => handleInputChange(text, setCircBraco)}
          keyboardType="numeric"
-        //  onChangeText={setCircBraco}
-        // keyboardType="number-pad"
         style={{color: 'black',marginBottom:-5 }}
         />
       <Text style={[styles.texto]}>Circunferência da Panturrilha</Text>
         <Input
        placeholder="Em cm"
        placeholderTextColor="black" 
-      // onChangeText={setCircPant}
-      //  keyboardType="number-pad"
       onChangeText={(text) => handleInputChange(text, setCircPant)}
       keyboardType="numeric"
        value={circPant}
@@ -184,8 +161,6 @@ export function CadastroPaciente (props: any) {
         <Input
           placeholder="Em cm"
           placeholderTextColor="black" 
-          // keyboardType="number-pad"
-          //onChangeText={setAlturaJoelho}
           onChangeText={(text) => handleInputChange(text, setAlturaJoelho)}
           keyboardType="numeric"
           value={alturaJoelho}
@@ -195,7 +170,6 @@ export function CadastroPaciente (props: any) {
         <Input
           placeholder="Em cm"
           placeholderTextColor="black" 
-         //onChangeText={setDiametroCintura}
          onChangeText={(text) => handleInputChange(text, setDiametroCintura)}
           value={diametroCintura}
           keyboardType="number-pad"
@@ -205,7 +179,6 @@ export function CadastroPaciente (props: any) {
         <Input
         placeholder="Em cm"
         placeholderTextColor="black" 
-        //onChangeText={setDiametroQuadril}
         onChangeText={(text) => handleInputChange(text, setDiametroQuadril)}
         value={diametroQuadril}
         keyboardType="number-pad"
@@ -233,7 +206,6 @@ const styles = StyleSheet.create({
   background: {
     width: '80%',
     height: '80%',
-   // paddingTop: 300
   },
   container: {
     flex: 1,
@@ -254,11 +226,5 @@ const styles = StyleSheet.create({
     fontSize:20,
     marginLeft:10,
     fontWeight: 'bold',
-  },
-
-  // scrollContainer: {
-  // // // marginBottom: 55,
-  // //  // marginTop: 190,
-  // //   //marginRight:150
-  // }
+  }
 });

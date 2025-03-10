@@ -67,14 +67,10 @@ const handleNovaAvaliacao = () => {
             if(paciente?.circBraco ){
                 if (paciente.sexo == 'feminino') {
                     pontosCalf+= paciente.circPant <= 33 ? 10 :0
-                    //pontosCalf+= pontosSarc
                 } else {
                     pontosCalf += paciente.circPant <= 34 ? 10 : 0
-                    // pontosCalf+= pontosSarc
                 }
                 setSarcCalF(pontosCalf >= 11)
-                //setSarcCalF(pontosCalf+=sarcF )
-                //setSarcCalF(true)
             }
             
             // SARC-F + EBM
@@ -82,7 +78,6 @@ const handleNovaAvaliacao = () => {
             pontosEBM += paciente.idade >= 75 ? 10 : 0
             pontosEBM += IMC <= 21 ? 10 : 0
             setSarcFEBM(pontosEBM >= 12)
-           // setSarcFEBM(true)
             
             // SARC-CalF+AC 
             let pontosCalFAC = pontosSarc;
@@ -93,7 +88,6 @@ const handleNovaAvaliacao = () => {
                 pontosCalFAC += paciente.circPant <= 34 ? 10 : 0
                 pontosCalFAC += paciente.circBraco <= 27 ? 10 : 0
             }
-          // setSarcCalFAC(pontosCalFAC)
            setSarcCalFAC(pontosCalFAC >= 11)
         }
     }
@@ -125,21 +119,6 @@ const handleNovaAvaliacao = () => {
             if ((paciente.sexo === 'masculino' && desempenho?.forcaPalmar < 27) || 
                 (paciente.sexo === 'feminino' && desempenho?.forcaPalmar < 16)) 
                 baixaForcaMuscular = true;
-            
-            // // TEMPO LEVANTAR
-            // if (desempenho?.tempoLevantar > 15) baixaForcaMuscular = true;
-            
-            // // VELOCIDADE MARCHA
-            // if (desempenho?.velocidadeMarcha <= 0.8) baixoDesempenhoFisico = true;
-            
-            // // SHORT PHYSICAL PERFORMANCE
-            // if (desempenho?.shortPhysicalPerformance <= 8) baixoDesempenhoFisico = true;
-                    
-            // // TIME UP GO
-            // if (desempenho?.timeUp >= 20) baixoDesempenhoFisico = true;
-    
-            // // CAMINHADA CURTA
-            // if (desempenho?.caminhadaCurta >= 6) baixoDesempenhoFisico = true;
 
             // TEMPO LEVANTAR
             if (desempenho.tempoLevantar != '' && desempenho.tempoLevantar > 15) baixaForcaMuscular = true;
@@ -176,15 +155,6 @@ const handleNovaAvaliacao = () => {
         source={require('./../../../assets/images/avaliacaoAntro.png')}
       >
 
-{/* <Text style={[styles.texto]}>
-  Força muscular: 
-  {desempenho?.forcaPalmar === null || desempenho?.forcaPalmar === '' || desempenho?.tempoLevantar === null || desempenho?.tempoLevantar === ''
-    ? ' Não tem dados suficientes' 
-    : baixaForcaMuscular 
-      ? ' Baixa' 
-      : ' Preservada'}
-</Text> */}
-
 <Text style={[styles.texto]}>
   Força muscular: 
   {desempenho?.forcaPalmar || desempenho?.tempoLevantar  
@@ -193,8 +163,6 @@ const handleNovaAvaliacao = () => {
       : ' Preservada' 
     : ' Não tem dados suficientes'}
 </Text>
-
-
 
 <Text style={[styles.texto]}>Massa mascular: {baixaMassaMuscular ? 'Baixa' : 'Preservada'}</Text>
 
@@ -210,42 +178,12 @@ Desempenho físico:
     : ' Não tem dados suficientes'}
 
 </Text>
-
-
-{/* <Text style={[styles.texto]}>
-  Desempenho físico: 
-  {desempenho?.velocidadeMarcha === '' || 
-  desempenho?.shortPhysicalPerformance === '' ||
-   desempenho?.timeUp === '' ||
-   desempenho?.caminhadaCurta === '' 
-    ? ' Não tem dados suficientes' 
-    : baixoDesempenhoFisico 
-      ? ' Baixo desempenho físico' 
-      : ' Desempenho físico preservado'}
-</Text> */}
-
-
-         {/* <Text style={[styles.texto]}>Força muscular: {baixaForcaMuscular ? 'Baixa' : 'Preservada'}</Text> */}
-
-         {/* <Text style={[styles.texto]}>Massa mascular: {baixaMassaMuscular ? 'Baixa' : 'Preservada'}</Text>
-
-         <Text style={[styles.texto]}>Desempenho físico: {baixoDesempenhoFisico ? 'Baixo desempenho físico' : 'Desempenho físico preservado'}</Text> */}
-         
-
          <Text style={[styles.texto]}>Diagnostico para Sarcopenia: { baixaForcaMuscular && baixaMassaMuscular && baixoDesempenhoFisico ? 'Paciente sarcopênico grave' :
         baixaMassaMuscular && (baixaForcaMuscular || baixoDesempenhoFisico) ? 'Paciente sarcopênico' :
         baixaForcaMuscular || baixoDesempenhoFisico ? 'Paciente com sarcopenia provável ' : 'Paciente não sarcopênico'}</Text>
 
-
-        {/* <Button title="Diagnostico Detalhado"
-        onPress= {() => navigation.navigate('resultadoDetalhado',{IMC, IMMEA, MMEA})} 
-         containerStyle={{borderRadius: 80,width: 320, marginLeft:30, marginTop:10}} 
-         buttonStyle={{ backgroundColor: 'blue',borderRadius: 80}}
-        raised={true}></Button> */}
-
         <Button title="Nova Avaliação"
         onPress= {handleNovaAvaliacao} 
-       // onPress= {() => navigation.navigate('menu')} 
         containerStyle={{borderRadius: 80,width: 320, marginLeft:30, marginTop:10, marginTop:20}} 
         buttonStyle={{ backgroundColor: '#36b6b0',borderRadius: 80}}
         titleStyle={{ color: 'white' }}

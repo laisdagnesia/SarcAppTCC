@@ -31,90 +31,6 @@ export function ResultadoDetalhadoScreen ({route}: AvaliacaoProps) {
     // ------------
 
     // ===================================
-//     const pontuacoesFinais = async () => {
-       
-//         if (paciente) {
-//             // ========= PONTUAÇÕES SARC ===========//
-//             //SARC-F
-//             if (pontosSarc >=4)
-//                 {
-//                     setSarcF(true)
-//                     console.log(`Pontos totais diagnóstico: ${pontosSarc}`);
-//                 } 
-
-//             //SARC-F+AC
-//             let pontos = pontosSarc;
-//             if (paciente?.circBraco) {
-//                 if(paciente.sexo == 'feminino'){
-//                     pontos += paciente.circBraco <= 25 ? 10 : 0
-
-//                 } else {
-//                     pontos += paciente.circBraco <= 27 ? 10 : 0
-//                 }
-//                 setSarcFAC(pontos >= 10)  
-//             }
-            
-//             // // SARC-CALF
-//             // let pontosCalf = pontosSarc;
-//             // if(paciente?.circBraco ){
-//             //     if (paciente.sexo == 'feminino') {
-//             //         pontosCalf+= paciente.circPant <= 33 ? 10 :0
-//             //         //pontosCalf+= pontosSarc
-//             //     } else {
-//             //         pontosCalf += paciente.circPant <= 34 ? 10 : 0
-//             //         // pontosCalf+= pontosSarc
-//             //     }
-//             //   setSarcCalF(pontosCalf >= 11)
-//             //    console.log(`Pontos totais SARC-CALF: ${pontosCalf}`);
-//             // }
-//             let pontosCalf = pontosSarc;  // Inicializa com pontosSarc
-// console.log(`Pontos iniciais: ${pontosCalf}`);
-
-// if (paciente?.circBraco) {  // Verifica se circBraco existe
-//     console.log(`Paciente possui circBraco: ${paciente.circBraco}`);
-
-//     if (paciente.sexo === 'feminino') {
-//         if (typeof paciente.circPant === 'number') {  // Verifica se é número válido
-//             console.log(`Circunferência da panturrilha: ${paciente.circPant}`);
-//             pontosCalf += paciente.circPant <= 33 ? 10 : 0;
-//         } else {
-//             console.warn('circPant não é um número válido!');
-//         }
-//     } else {
-//         if (typeof paciente.circPant === 'number') {
-//             console.log(`Circunferência da panturrilha: ${paciente.circPant}`);
-//             pontosCalf += paciente.circPant <= 34 ? 10 : 0;
-//         } else {
-//             console.warn('circPant não é um número válido!');
-//         }
-//     }
-
-//     console.log(`Pontos finais: ${pontosCalf}`);
-//     setSarcCalF(pontosCalf >= 11);
-// }
-
-            
-//             // SARC-F + EBM
-//             let pontosEBM = pontosSarc;
-//             pontosEBM += paciente.idade >= 75 ? 10 : 0
-//             pontosEBM += IMC <= 21 ? 10 : 0
-//             setSarcFEBM(pontosEBM >= 12)
-//            // setSarcFEBM(true)
-            
-//             // SARC-CalF+AC 
-//             let pontosCalFAC = pontosSarc;
-//             if(paciente.sexo == 'feminino' && paciente.circPant && paciente.circBraco){
-//                 pontosCalFAC += paciente.circPant <= 33 ? 10 : 0
-//                 pontosCalFAC += paciente.circBraco <= 25 ? 10 : 0
-//             } else if (paciente.sexo == 'masculino' && paciente.circBraco && paciente.circPant) {
-//                 pontosCalFAC += paciente.circPant <= 34 ? 10 : 0
-//                 pontosCalFAC += paciente.circBraco <= 27 ? 10 : 0
-//             }
-//           // setSarcCalFAC(pontosCalFAC)
-//            setSarcCalFAC(pontosCalFAC >= 11)
-//         }
-//     }
-
 const pontuacoesFinais = async () => {
     console.log("Função pontuacoesFinais foi chamada!");
 
@@ -248,12 +164,6 @@ const pontuacoesFinais = async () => {
       >
       {/* Foi feito uma condicao para caso o valor seja vazio, ou seja, ele nao seja respondido, ele fique como -1, caso responda nenhuma ele entende como 0  */}
 
-        {/* <Text style={[styles.texto]}>Sarc-F + AC: {sarcFAC ? 'Sugestivo de sarcopenia' : 'Paciente não sarcopênico'}</Text> */}
-        
-        {/* <Text style={[styles.texto]}>Sarc-Cal + F: {sarcCalF ? 'Sugestivo de sarcopenia' : 'Paciente não sarcopênico'}</Text> */}
-        
-        {/* <Text style={[styles.texto]}>Sarc-CalF+AC: {sarcCalFAC ? 'Sugestivo de sarcopenia' : 'Paciente não sarcopênico'}</Text> */}
-
        <Text style={[styles.texto]}> Sarc-F: {pontosSarc < 0 ? ' Formulário Sarc-F não foi preenchido' : pontosSarc === 0 ? 'Paciente não sarcopênico' : pontosSarc >= 4 ? 'Sugestivo de sarcopenia' : 'Paciente não sarcopênico'} </Text>
     
         <Text style={[styles.texto]}>Sarc-F + AC: {pontosSarc < 0 ? ' Dados insuficientes' : paciente?.circBraco ? (sarcFAC ? 'Sugestivo de sarcopenia' : 'Paciente não sarcopênico') : ' Não tem dados suficientes'}</Text>
@@ -263,23 +173,6 @@ const pontuacoesFinais = async () => {
         <Text style={[styles.texto]}>Sarc-F + EBM: {pontosSarc < 0 ? ' Dados insuficientes' : paciente?.idade && IMC ? (sarcFEBM ? 'Sugestivo de sarcopenia' : 'Paciente não sarcopênico') : ' Não tem dados suficientes'}</Text> 
         
         <Text style={[styles.texto]}> Sarc-CalF+AC:{pontosSarc < 0 ? ' Dados insuficientes' : paciente?.circBraco && paciente?.circPant ? (sarcCalFAC ? 'Sugestivo de sarcopenia' : 'Paciente não sarcopênico') : ' Não tem dados suficientes'}</Text>
-
-         {/* <Text style={[styles.texto]}>Diagnóstico para Sarcopenia: { pontosSarc < 0 ? 'Dados insuficientes' : baixaForcaMuscular && baixaMassaMuscular && baixoDesempenhoFisico ? 'Paciente sarcopênico grave' :
-        baixaForcaMuscular && (baixaMassaMuscular || baixoDesempenhoFisico) ? 'Paciente sarcopênico' :
-        baixaForcaMuscular ? 'Paciente com sarcopenia provável ' : 'Paciente não sarcopênico'}</Text> */}
-
-{/* <Text style={[styles.texto]}>
-  Diagnóstico para Sarcopenia: 
-  {pontosSarc < 0 
-    ? ' Dados insuficientes' 
-    : (baixaForcaMuscular || baixaMassaMuscular || baixoDesempenhoFisico) 
-      ? (baixaForcaMuscular && baixaMassaMuscular && baixoDesempenhoFisico 
-          ? ' Paciente sarcopênico grave' 
-          : ' Sugestivo de sarcopenia') 
-      : ' Paciente não sarcopênico'}
-</Text> */}
-
-
         <Button 
         title="Diagnóstico para Sarcopenia"
         style={styles.button}

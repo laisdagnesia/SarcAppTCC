@@ -176,7 +176,6 @@ const handleVoltar = () => {
          onPress={handleAvancar}  
           raised={true}></Button>
           <Button title="Voltar" 
-          //onPress={handleVoltar}
           onPress={() => navigation.goBack()}
           style={styles.button}
           containerStyle={{borderRadius: 80,width: 320, marginLeft:40, marginTop:10}} 

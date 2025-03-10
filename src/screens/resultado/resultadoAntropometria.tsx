@@ -36,7 +36,7 @@ export function ResultadoAntropometriaScreen () {
                     altura = paciente.raca == 'afrodescendente'
                                  ? (68.1 + (1.86 * paciente.alturaJoelho) - (0.06 * paciente.idade)) 
                                  : (70.25 + (1.87 * paciente.alturaJoelho) - (0.06 * paciente.idade))
-                } else { //homem
+                } else { 
                     altura = paciente.raca == 'afrodescendente'
                                  ? (73.42 + (1.79 * paciente.alturaJoelho )) 
                                  : (71.85 + (1.88 * paciente.alturaJoelho ))
@@ -153,14 +153,11 @@ export function ResultadoAntropometriaScreen () {
         <Text style={styles.texto}>IMC{(IMCEstimado  ? ' Estimado' : '')}: {IMC !== null && IMC !== undefined && IMC !== '' && IMC <= 2000 ? IMC.toFixed(2) : 'Não informado'}</Text>
         
         {/* MMEA */}
-        
-        {/* <Text style={styles.texto}> MMEA{(MMEAEstimado ? ' Estimada' : '')}: {MMEAEstimado && IMC > 29.9 ? ' IMC maior que 30 Kg/m²' : (MMEA !== null && MMEA !== undefined && MMEA !== '' ? MMEA : 'Não informado')}</Text> */}
-
+    
         <Text style={styles.texto}>MMEA{(MMEAEstimado ? ' Estimada' : '')}:{ MMEAEstimado && IMC > 29.9 ? ' IMC maior que 30 Kg/m²' : (MMEA !== null && MMEA !== undefined && MMEA !== '' && MMEA >= 0  ? MMEA  : 'Não há dados suficientes')}</Text>
 
         {/* IMMEA */}
 
-        {/* <Text style={styles.texto}> IMMEA{(IMMEAEstimado ? ' Estimado' : '')}: {IMMEAEstimado && IMC > 29.9 ? ' IMC maior que 30 Kg/m²' : (IMMEA !== null && IMMEA !== undefined && IMMEA !== '' ? IMMEA : 'Não informado')}</Text> */}
         <Text style={styles.texto}>IMMEA{(IMMEAEstimado ? ' Estimado' : '')}: {
   IMMEAEstimado && IMC > 29.9 
     ? ' IMC maior que 30 Kg/m²' 
@@ -213,7 +210,6 @@ const styles = StyleSheet.create({
         marginLeft:10, 
         fontSize:20, 
         fontWeight: 'bold',
-       // marginTop:100, 
         marginBottom:10
     },
     button: {

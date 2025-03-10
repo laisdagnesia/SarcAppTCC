@@ -19,17 +19,11 @@ export function MenuScreen(props: any) {
           buttonStyle={styles.button}
           titleStyle={{ color: 'white' }}
           containerStyle={{marginTop:500,borderRadius: 80}}
-          // containerStyle={{marginTop:350,borderRadius: 80}}
+         //  containerStyle={{marginTop:350,borderRadius: 80}}
           onPress= {() => navigation.navigate('cadastroPaciente')} 
           raised={true}></Button>
 
           <Text style={[{color: 'black', marginTop:100}]}>Versão Teste</Text>
-
-          {/* <Button title="Voltar" onPress={() => navigation.goBack()}
-         buttonStyle={styles.botaoVoltar}
-         containerStyle={{marginTop:40,borderRadius: 80}}
-         raised={true}></Button>          */}
-        
       </ImageBackground>
 
   );

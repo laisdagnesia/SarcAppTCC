@@ -1,4 +1,5 @@
 import { createContext, useContext, useState } from "react";
+import React from 'react';
 
 
 type Paciente = {
@@ -48,7 +49,6 @@ export function PacienteProvider({children}: any) {
 
     const [ paciente, setPaciente ] = useState<undefined|Paciente>();
     const [ pontosSarc, setPontosSarc ] = useState<number>(0);
-    // const [ pontosCalf, setPontosCalf ] = useState<number>(0);
     const [ desempenho, setDesempenho ] = useState<undefined|Desempenho>();
     const [ formularioSarcF, setFormularioSarcF ] = useState<undefined|FormularioSarcF>();
 

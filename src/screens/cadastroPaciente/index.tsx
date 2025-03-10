@@ -4,7 +4,6 @@ import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from '@react-navigation/stack';
 import { NavegacaoPrincipalParams } from '../navigation/config';
 import { Button,Input } from '@rneui/themed';
-//import RNPickerSelect from 'react-native-picker-select';
 import { Picker } from '@react-native-picker/picker'
 import { usePacienteContext } from "../../context/pacientes";
 import { MaskedTextInput } from "react-native-mask-text";

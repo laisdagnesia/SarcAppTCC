@@ -1,8 +1,8 @@
 import { NavigationContainer } from '@react-navigation/native';
-import { CadastroScreen } from '../cadastroProfissional';
 import { MenuScreen } from '../menu';
 import { createStackNavigator } from '@react-navigation/stack';
 import {  createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import * as React from 'react';
 
  const Tab = createBottomTabNavigator();
 

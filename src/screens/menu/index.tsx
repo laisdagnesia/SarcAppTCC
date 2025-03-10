@@ -9,8 +9,7 @@ export function MenuScreen(props: any) {
   type navProps = StackNavigationProp<NavegacaoPrincipalParams,  'menu' , 'cadastroPaciente'>;
   const navigation = useNavigation<navProps>();
   return (
-  
-      <ImageBackground style={styles.container}
+   <ImageBackground style={styles.container}
         source={require('./../../../assets/images/menu.png')}
       >
 

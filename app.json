@@ -1,0 +1,45 @@
+{
+  "expo": {
+    "name": "Sarc-App",
+    "slug": "Sarc-App",
+    "version": "1.0.3",
+    "orientation": "portrait",
+    "icon": "./assets/splash.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.laislessa.sarcapp"
+    },
+    "plugins": [
+      "@react-native-google-signin/google-signin"
+    ],
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/splash.png",
+        "backgroundColor": "#ffffff"
+      },
+      "googleServicesFile": "./google-services.json",
+      "package": "com.laislessa.sarcapp"
+    },
+    "web": {
+      "favicon": "./assets/splash.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "ed00cd7d-83f6-4781-a3c1-5697e449112b"
+      }
+    },
+    "runtimeVersion": "1.0.0",
+    "updates": {
+      "url": "https://u.expo.dev/ed00cd7d-83f6-4781-a3c1-5697e449112b"
+    }
+  }
+}

@@ -23,7 +23,6 @@ export function MenuScreen(props: any) {
           onPress= {() => navigation.navigate('cadastroPaciente')} 
           raised={true}></Button>
 
-          <Text style={[{color: 'black', marginTop:100}]}>Versão Teste</Text>
       </ImageBackground>
 
   );

@@ -138,7 +138,7 @@ export function ResultadoAntropometriaScreen () {
     return (
         <ScrollView contentContainerStyle={styles.scrollContainer}>
         <ImageBackground style={styles.container}
-        source={require('./../../../assets/images/avaliacaoAntro.png')}
+        source={require('./../../../assets/images/resultadoAntro.png')}
       >
         {/* PESO */}
         

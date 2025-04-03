@@ -40,7 +40,7 @@ export function CadastroPaciente (props: any) {
         Alert.alert('Por favor, selecione a raça.');
         return; 
       }
-      navigation.navigate('formularioSarcF')
+      navigation.navigate('menu')
     }
 
   const formatarNumero = (text) => {
@@ -105,15 +105,24 @@ export function CadastroPaciente (props: any) {
             <Picker.Item label='Asiático' value='asiatico' />
             <Picker.Item label='Caucasiano' value='caucasiano'/>
           </Picker>
-
+          
       <Text style={[styles.texto,{ marginTop: 20}]}>Peso</Text>
         <Input
          placeholder="Ex: 65.8"
          placeholderTextColor="black" 
-        keyboardType="numeric"
-        onChangeText={setPeso}
-         value={peso}
-          style={{color: 'black',marginBottom:-5}}
+         onChangeText={(text) => {
+          if (text.trim() === '') {
+        setPeso(null); 
+          } else {
+        let formattedText = text.replace(',', '.'); 
+        if (/^\d*\.?\d*$/.test(formattedText)) {
+          setPeso(formattedText); 
+        }
+          }
+        }}
+        value={peso === null ? '' : peso.toString()} 
+        keyboardType="number-pad"
+        style={{color: 'black',marginBottom:-5 }}
         />
 
 <Text style={[styles.texto]}>Altura</Text>
@@ -185,7 +194,7 @@ export function CadastroPaciente (props: any) {
           style={{color: 'black',marginBottom:-5 }}
         />
           <Button 
-          title="Preencher Sarc-F"
+          title="Menu"
           style={styles.button}
           titleStyle={{ color: 'white' }}
           containerStyle={{borderRadius: 80,width: 320, marginLeft:30}} 

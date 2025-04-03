@@ -1,3 +1,4 @@
+import { InicioScreen } from "../inicio";
 import { MenuScreen } from "../menu";
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
@@ -12,6 +13,7 @@ import * as React from 'react';
 
 
 export type NavegacaoPrincipalParams = {
+    inicio: undefined,
     menu: undefined,
     cadastroPaciente: undefined,
     formularioSarcF: undefined,
@@ -27,6 +29,7 @@ export const TelaConfiguracao = () => (
     <NavigationContainer>
         <PacienteProvider>
             <Stack.Navigator screenOptions={{headerShown:false}}>
+                <Stack.Screen name="inicio" component={InicioScreen}/>
                 <Stack.Screen name="menu" component={MenuScreen}/>
                 <Stack.Screen name="cadastroPaciente" component={CadastroPaciente} />
                 <Stack.Screen name="formularioSarcF" component={FormularioSarcFScreen} />

@@ -13,12 +13,12 @@ export function MenuScreen(props: any) {
             source={require('./../../../assets/images/menu.png')}
         >
         <Button 
-            title="Avaliação Antropométrica"
+            title="Resultado Triagem"
             style={styles.button}
             buttonStyle={styles.button}
             titleStyle={{ color: 'white' }}
             containerStyle={{marginTop:50,borderRadius: 80}}
-            onPress= {() => navigation.navigate('cadastroPaciente')} 
+            onPress= {() => navigation.navigate('resultadoAntropometria')} 
             raised={true}>      
         </Button>
 
@@ -31,12 +31,12 @@ export function MenuScreen(props: any) {
                 onPress= {() => navigation.navigate('formularioSarcF')} 
                 raised={true}></Button>
            <Button 
-                title="Avaliação para Sarcopenia"
+                title="Avaliação para Desempenho Físico"
                 style={styles.button}
                 buttonStyle={styles.button}
                 titleStyle={{ color: 'white' }}
                 containerStyle={{marginTop:50,borderRadius: 80}}
-              //  onPress= {() => navigation.navigate('formularioSarcF')} 
+              onPress= {() => navigation.navigate('formularioDesempenho')} 
                 raised={true}></Button>
             <Button 
                 title="Voltar"

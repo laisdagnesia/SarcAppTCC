@@ -175,6 +175,7 @@ const handleVoltar = () => {
           buttonStyle={{ backgroundColor: '#36b6b0',borderRadius: 80}}
          onPress={handleAvancar}  
           raised={true}></Button>
+          
           <Button title="Voltar" 
           onPress={() => navigation.goBack()}
           style={styles.button}

@@ -167,15 +167,22 @@ const handleVoltar = () => {
             <Picker.Item label='1 a 3' value='alguma' />
             <Picker.Item label='4 ou mais' value='muito'/>
           </Picker>
-          <Button 
+          {/* <Button 
           title="Avaliação para Sarcopenia"
           style={styles.button}
           titleStyle={{ color: 'white' }}
           containerStyle={{borderRadius: 80,width: 320, marginLeft:40}} 
           buttonStyle={{ backgroundColor: '#36b6b0',borderRadius: 80}}
          onPress={handleAvancar}  
+          raised={true}></Button> */}
+          <Button 
+          title="Resultado para Sarcopenia"
+          style={styles.button}
+          titleStyle={{ color: 'white' }}
+          containerStyle={{borderRadius: 80,width: 320, marginLeft:40, marginTop:10}} 
+          buttonStyle={{ backgroundColor: '#36b6b0',borderRadius: 80}}
+          onPress= {() => navigation.navigate('resultadoDetalhado', {IMC: 0, IMMEA: 0, MMEA: 0})} 
           raised={true}></Button>
-          
           <Button title="Voltar" 
           onPress={() => navigation.goBack()}
           style={styles.button}

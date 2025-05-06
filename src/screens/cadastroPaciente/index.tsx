@@ -23,46 +23,101 @@ export function CadastroPaciente (props: any) {
     type navProps = StackNavigationProp<NavegacaoPrincipalParams,  'formularioSarcF' , 'cadastroPaciente'>;
     const navigation = useNavigation<navProps>();
     const { setPaciente } = usePacienteContext();
+
+        // Converte string para number seguro
+        const toNumber = (valor: string | number | null): number => {
+          if (valor === null || valor === '') return 0;
+          const num = typeof valor === 'string' ? parseFloat(valor.replace(',', '.')) : valor;
+          return isNaN(num) ? 0 : num;
+        };
     // ================================
-    const handleAvancar = () => {
-      setPaciente({
-        idade, sexo, raca, peso, altura, circBraco, circPant, alturaJoelho, diametroCintura, diametroQuadril
-      })
-      if (idade.trim() === '' || isNaN(Number(idade))) {
-        Alert.alert('Por favor, insira uma idade válida.');
-        return; 
-      }
-      if (sexo.trim() === '') {
-        Alert.alert('Por favor, selecione o sexo.');
-        return; 
-      }
-      if (raca.trim() === '') {
-        Alert.alert('Por favor, selecione a raça.');
-        return; 
-      }
-      navigation.navigate('menu')
+  //   const handleAvancar = () => {
+  //     setPaciente({
+  //       idade, sexo, raca, peso, altura, circBraco, circPant, alturaJoelho, diametroCintura, diametroQuadril
+  //     })
+  //     if (idade.trim() === '' || isNaN(Number(idade))) {
+  //       Alert.alert('Por favor, insira uma idade válida.');
+  //       return; 
+  //     }
+  //     if (sexo.trim() === '') {
+  //       Alert.alert('Por favor, selecione o sexo.');
+  //       return; 
+  //     }
+  //     if (raca.trim() === '') {
+  //       Alert.alert('Por favor, selecione a raça.');
+  //       return; 
+  //     }
+  //     navigation.navigate('menu')
+  //   }
+
+  // const formatarNumero = (text) => {
+  //   let formattedText = '';
+
+  //   for (let i = 0; i < text.length; i++) {
+  //     const char = text[i];
+  //     if (char === ',') {
+  //       formattedText += '.';
+  //     } else {
+  //       formattedText += char;
+  //     }
+  //   }
+
+  //   if (/^\d*\.?\d*$/.test(formattedText)) {
+  //     return formattedText;
+  //   }
+  //   return ''; 
+  // };
+
+  const handleAvancar = () => {
+    // Verificações
+    if (idade.trim() === '' || isNaN(Number(idade))) {
+      Alert.alert('Por favor, insira uma idade válida.');
+      return;
+    }
+    if (sexo.trim() === '') {
+      Alert.alert('Por favor, selecione o sexo.');
+      return;
+    }
+    if (raca.trim() === '') {
+      Alert.alert('Por favor, selecione a raça.');
+      return;
     }
 
-  const formatarNumero = (text) => {
-    let formattedText = '';
-
-    for (let i = 0; i < text.length; i++) {
-      const char = text[i];
-      if (char === ',') {
-        formattedText += '.';
-      } else {
-        formattedText += char;
-      }
-    }
-
-    if (/^\d*\.?\d*$/.test(formattedText)) {
-      return formattedText;
-    }
-    return ''; 
+  
+    // Salva no contexto
+    setPaciente({
+      idade: toNumber(idade),
+      sexo: sexo as 'feminino' | 'masculino',
+      raca: raca as 'afrodescendente' | 'asiatico' | 'caucasiano',
+      peso: toNumber(peso),
+      altura: toNumber(altura),
+      circBraco: toNumber(circBraco),
+      circPant: toNumber(circPant),
+      alturaJoelho: toNumber(alturaJoelho),
+      diametroCintura: toNumber(diametroCintura),
+      diametroQuadril: toNumber(diametroQuadril),
+    });
+  
+    console.log('📦 Paciente salvo no contexto:', {
+      idade: toNumber(idade),
+      sexo,
+      raca,
+      peso: toNumber(peso),
+      altura: toNumber(altura),
+      circBraco: toNumber(circBraco),
+      circPant: toNumber(circPant),
+      alturaJoelho: toNumber(alturaJoelho),
+      diametroCintura: toNumber(diametroCintura),
+      diametroQuadril: toNumber(diametroQuadril),
+    });
+  
+    // Navega para o menu
+    navigation.navigate('menu');
   };
+  
 
   const handleInputChange = (text, setStateFunction) => {
-    const formattedText = formatarNumero(text);
+    const formattedText = toNumber(text);
     setStateFunction(formattedText);
   }
 

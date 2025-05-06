@@ -24,112 +24,207 @@ export function ResultadoAntropometriaScreen () {
     const [ pesoEstimado, setPesoEstimado ] = React.useState(false);
 
     // =======================================
-    const calcular = async () => {
-        if (paciente && desempenho) {
-            //=============== PESO E ALTURA ==========//
-            let altura:any = paciente.altura;
-            let alturaEstimada = false;
-            
-            // Altura
-            if (!altura && paciente.alturaJoelho) {
-                if (paciente.sexo == 'feminino') {
-                    altura = paciente.raca == 'afrodescendente'
-                                 ? (68.1 + (1.86 * paciente.alturaJoelho) - (0.06 * paciente.idade)) 
-                                 : (70.25 + (1.87 * paciente.alturaJoelho) - (0.06 * paciente.idade))
-                } else { 
-                    altura = paciente.raca == 'afrodescendente'
-                                 ? (73.42 + (1.79 * paciente.alturaJoelho )) 
-                                 : (71.85 + (1.88 * paciente.alturaJoelho ))
-                }
-                
-                alturaEstimada = true;
-                //@ts-ignore
-                altura = parseFloat(altura/100).toFixed(2); 
-            }
-            setAlturaEstimada(alturaEstimada)
-            setAltura(altura)
-
-            // Peso
-            let peso:any = paciente.peso;
-            let pesoEstimado = false;
-            if(!peso && paciente.alturaJoelho && paciente.circBraco) {
-                //Sexo
-                if (paciente.sexo == 'masculino') {
-                    //Raça
-                    if (paciente.raca == 'afrodescendente') {
-                        peso = paciente.idade <= 59 
-                                ? ((paciente.alturaJoelho * 1.24) + (paciente.circBraco * 2.97) - 82.48)
-                                : ((paciente.alturaJoelho * 1.50) + (paciente.circBraco * 2.58) - 84.22 )
-                    } else {
-                        peso = paciente.idade <= 59 
-                                ? ((paciente.alturaJoelho * 1.01) + (paciente.circBraco * 2.81) - 66.04)
-                                : ((paciente.alturaJoelho * 1.09) + (paciente.circBraco * 2.68) - 65.51)
-                    }
-                } else {
-                    //Feminino
-                    //Raça
-                    if (paciente.raca == 'afrodescendente') {
-                        peso = paciente.idade <= 59 
-                                ? ((paciente.alturaJoelho * 1.09) + (paciente.circBraco * 3.14) - 83.72)
-                                : ((paciente.alturaJoelho * 0.44) + (paciente.circBraco * 2.86) - 39.21)
-                    } else {
-                        peso = paciente.idade <= 59 
-                                ? ((paciente.alturaJoelho * 1.19) + (paciente.circBraco * 3.14) - 86.82)
-                                : ((paciente.alturaJoelho * 1.10) + (paciente.circBraco * 3.07) - 75.81)
-                    }
-                }
-                peso = parseFloat(peso.toFixed(2))
-                pesoEstimado = true;
-            }
+    // const calcular = async () => {
+    //     if (!paciente || Object.keys(paciente).length === 0) {
+    //         console.log('Paciente ainda não carregado');
+    //         return;
+    //       }
         
-            setPeso(peso)
-            setPesoEstimado(pesoEstimado)
-
-            //================ MMEA ================//
-            let MMEA = 0;
-            let raca = 0;
-            switch (paciente.raca) {
-                case 'afrodescendente': raca = 1.4; break;
-                case 'asiatico': raca = 1.2; break;
-                case 'caucasiano': raca = 0; break;
-            }
-            let sexo = 0;
-            switch (paciente.sexo) {
-                case 'feminino': sexo = 0; break;
-                case 'masculino': sexo = 1; break;
-            }
+    //       if (!paciente.altura && !paciente.alturaJoelho) {
+    //         Alert.alert('Dados incompletos do paciente');
+    //         return;
+    //       }
+    //     if (paciente && desempenho) {
+    //         //=============== PESO E ALTURA ==========//
+    //         let altura:any = paciente.altura;
+    //         let alturaEstimada = false;
             
-            if(desempenho?.massaMuscularApendicular) {
-                //REAL
-                MMEA = Number(desempenho?.massaMuscularApendicular)
-            } else {        
-                //ESTIMADO
-                //@ts-ignore
-                MMEA = ((0.244 * peso)  + (7.8 * altura) + (sexo * 6.6)  - (0.098 * paciente.idade) + (raca - 3.3))
-                setMMEAEstimado(true)
-            }
+    //         // Altura
+    //         if (!altura && paciente.alturaJoelho) {
+    //             if (paciente.sexo == 'feminino') {
+    //                 altura = paciente.raca == 'afrodescendente'
+    //                              ? (68.1 + (1.86 * paciente.alturaJoelho) - (0.06 * paciente.idade)) 
+    //                              : (70.25 + (1.87 * paciente.alturaJoelho) - (0.06 * paciente.idade))
+    //             } else { 
+    //                 altura = paciente.raca == 'afrodescendente'
+    //                              ? (73.42 + (1.79 * paciente.alturaJoelho )) 
+    //                              : (71.85 + (1.88 * paciente.alturaJoelho ))
+    //             }
+                
+    //             alturaEstimada = true;
+    //             //@ts-ignore
+    //             altura = parseFloat(altura/100).toFixed(2); 
+    //         }
+    //         setAlturaEstimada(alturaEstimada)
+    //         setAltura(altura)
 
-            setMMEA(Number(MMEA.toFixed(2)))
+    //         // Peso
+    //         let peso:any = paciente.peso;
+    //         let pesoEstimado = false;
+    //         if(!peso && paciente.alturaJoelho && paciente.circBraco) {
+    //             //Sexo
+    //             if (paciente.sexo == 'masculino') {
+    //                 //Raça
+    //                 if (paciente.raca == 'afrodescendente') {
+    //                     peso = paciente.idade <= 59 
+    //                             ? ((paciente.alturaJoelho * 1.24) + (paciente.circBraco * 2.97) - 82.48)
+    //                             : ((paciente.alturaJoelho * 1.50) + (paciente.circBraco * 2.58) - 84.22 )
+    //                 } else {
+    //                     peso = paciente.idade <= 59 
+    //                             ? ((paciente.alturaJoelho * 1.01) + (paciente.circBraco * 2.81) - 66.04)
+    //                             : ((paciente.alturaJoelho * 1.09) + (paciente.circBraco * 2.68) - 65.51)
+    //                 }
+    //             } else {
+    //                 //Feminino
+    //                 //Raça
+    //                 if (paciente.raca == 'afrodescendente') {
+    //                     peso = paciente.idade <= 59 
+    //                             ? ((paciente.alturaJoelho * 1.09) + (paciente.circBraco * 3.14) - 83.72)
+    //                             : ((paciente.alturaJoelho * 0.44) + (paciente.circBraco * 2.86) - 39.21)
+    //                 } else {
+    //                     peso = paciente.idade <= 59 
+    //                             ? ((paciente.alturaJoelho * 1.19) + (paciente.circBraco * 3.14) - 86.82)
+    //                             : ((paciente.alturaJoelho * 1.10) + (paciente.circBraco * 3.07) - 75.81)
+    //                 }
+    //             }
+    //             peso = parseFloat(peso.toFixed(2))
+    //             pesoEstimado = true;
+    //         }
+        
+    //         setPeso(peso)
+    //         setPesoEstimado(pesoEstimado)
 
-            // ================== IMMEA =================//
-            let IMMEA: any = 0;
-            if (desempenho?.indiceMassaMuscularApendicular){
-                //Real
-                IMMEA = Number(desempenho?.indiceMassaMuscularApendicular)
-            } else {
-                //Estimado
-                IMMEA = (MMEA / (altura * altura)).toFixed(2);
-                setIMMEAEstimado(true)
-            } 
-            setIMMEA(Number(IMMEA))
+    //         //================ MMEA ================//
+    //         let MMEA = 0;
+    //         let raca = 0;
+    //         switch (paciente.raca) {
+    //             case 'afrodescendente': raca = 1.4; break;
+    //             case 'asiatico': raca = 1.2; break;
+    //             case 'caucasiano': raca = 0; break;
+    //         }
+    //         let sexo = 0;
+    //         switch (paciente.sexo) {
+    //             case 'feminino': sexo = 0; break;
+    //             case 'masculino': sexo = 1; break;
+    //         }
+            
+    //         if(desempenho?.massaMuscularApendicular) {
+    //             //REAL
+    //             MMEA = Number(desempenho?.massaMuscularApendicular)
+    //         } else {        
+    //             //ESTIMADO
+    //             //@ts-ignore
+    //             MMEA = ((0.244 * peso)  + (7.8 * altura) + (sexo * 6.6)  - (0.098 * paciente.idade) + (raca - 3.3))
+    //             setMMEAEstimado(true)
+    //         }
+
+    //         setMMEA(Number(MMEA.toFixed(2)))
+
+    //         // ================== IMMEA =================//
+    //         let IMMEA: any = 0;
+    //         if (desempenho?.indiceMassaMuscularApendicular){
+    //             //Real
+    //             IMMEA = Number(desempenho?.indiceMassaMuscularApendicular)
+    //         } else {
+    //             //Estimado
+    //             IMMEA = (MMEA / (altura * altura)).toFixed(2);
+    //             setIMMEAEstimado(true)
+    //         } 
+    //         setIMMEA(Number(IMMEA))
     
-            // ================ IMC ==================//
-            const IMC = (peso / (altura * altura)).toFixed(2);
-            setIMC(Number(IMC))
-            setIMCEstimado(pesoEstimado || alturaEstimada);
-        }
-    }
+    //         // ================ IMC ==================//
+    //         const IMC = (peso / (altura * altura)).toFixed(2);
+    //         setIMC(Number(IMC))
+    //         setIMCEstimado(pesoEstimado || alturaEstimada);
+    //     }
+    // }
 
+    const calcular = async () => {
+        if (!paciente || Object.keys(paciente).length === 0) {
+          console.log('Paciente ainda não carregado');
+          return;
+        }
+      
+        if (!paciente.altura && !paciente.alturaJoelho) {
+          Alert.alert('Dados incompletos do paciente');
+          return;
+        }
+      
+        // ===== ALTURA
+        let altura: number = paciente.altura;
+        let alturaEstimada = false;
+      
+        if ((!altura || altura === 0) && paciente.alturaJoelho) {
+          if (paciente.sexo === 'feminino') {
+            altura = paciente.raca === 'afrodescendente'
+              ? (68.1 + (1.86 * paciente.alturaJoelho) - (0.06 * paciente.idade))
+              : (70.25 + (1.87 * paciente.alturaJoelho) - (0.06 * paciente.idade));
+          } else {
+            altura = paciente.raca === 'afrodescendente'
+              ? (73.42 + (1.79 * paciente.alturaJoelho))
+              : (71.85 + (1.88 * paciente.alturaJoelho));
+          }
+          alturaEstimada = true;
+          altura = altura / 100; // cm → m
+        }
+      
+        setAltura(altura);
+        setAlturaEstimada(alturaEstimada);
+      
+        // ===== PESO
+        let peso: number = paciente.peso;
+        let pesoEstimado = false;
+      
+        if ((!peso || peso === 0) && paciente.alturaJoelho && paciente.circBraco) {
+          if (paciente.sexo === 'masculino') {
+            peso = paciente.raca === 'afrodescendente'
+              ? (paciente.idade <= 59
+                  ? ((paciente.alturaJoelho * 1.24) + (paciente.circBraco * 2.97) - 82.48)
+                  : ((paciente.alturaJoelho * 1.50) + (paciente.circBraco * 2.58) - 84.22))
+              : (paciente.idade <= 59
+                  ? ((paciente.alturaJoelho * 1.01) + (paciente.circBraco * 2.81) - 66.04)
+                  : ((paciente.alturaJoelho * 1.09) + (paciente.circBraco * 2.68) - 65.51));
+          } else {
+            peso = paciente.raca === 'afrodescendente'
+              ? (paciente.idade <= 59
+                  ? ((paciente.alturaJoelho * 1.09) + (paciente.circBraco * 3.14) - 83.72)
+                  : ((paciente.alturaJoelho * 0.44) + (paciente.circBraco * 2.86) - 39.21))
+              : (paciente.idade <= 59
+                  ? ((paciente.alturaJoelho * 1.19) + (paciente.circBraco * 3.14) - 86.82)
+                  : ((paciente.alturaJoelho * 1.10) + (paciente.circBraco * 3.07) - 75.81));
+          }
+          peso = parseFloat(peso.toFixed(2));
+          pesoEstimado = true;
+        }
+      
+        setPeso(peso);
+        setPesoEstimado(pesoEstimado);
+      
+        // ===== MMEA
+        let racaFactor = paciente.raca === 'afrodescendente' ? 1.4 : paciente.raca === 'asiatico' ? 1.2 : 0;
+        let sexoFactor = paciente.sexo === 'masculino' ? 1 : 0;
+      
+        let MMEA = desempenho?.massaMuscularApendicular
+          ? Number(desempenho.massaMuscularApendicular)
+          : (0.244 * peso + 7.8 * altura + sexoFactor * 6.6 - 0.098 * paciente.idade + racaFactor - 3.3);
+      
+        setMMEA(Number(MMEA.toFixed(2)));
+        setMMEAEstimado(!desempenho?.massaMuscularApendicular);
+      
+        // ===== IMMEA
+        let IMMEA = desempenho?.indiceMassaMuscularApendicular
+          ? Number(desempenho.indiceMassaMuscularApendicular)
+          : MMEA / (altura * altura);
+      
+        setIMMEA(Number(IMMEA.toFixed(2)));
+        setIMMEAEstimado(!desempenho?.indiceMassaMuscularApendicular);
+      
+        // ===== IMC
+        const IMC = peso / (altura * altura);
+        setIMC(Number(IMC.toFixed(2)));
+        setIMCEstimado(pesoEstimado || alturaEstimada);
+      };
+      
     React.useEffect(() => {
         calcular()
     }, [])
@@ -171,13 +266,13 @@ export function ResultadoAntropometriaScreen () {
     {IMC > 29.9 && (MMEAEstimado || IMMEAEstimado) && (<Text style={[styles.texto, {marginBottom: 50, color: 'red', fontWeight: 'bold', backgroundColor: '#F7DC6F', padding: 10, marginRight: 10}]}>
         Observação: Não foi possível calcular o MMEA e o IMMEA pois o IMC é maior que 29.9 </Text>)}
 
-        <Button title="Resultados da Triagem"
+        {/* <Button title="Resultados da Triagem"
         onPress= {() => navigation.navigate('resultadoDetalhado',{IMC, IMMEA, MMEA})}  
         style={styles.button}
         containerStyle={{borderRadius: 80,width: 320, marginLeft:30,marginTop:20}}
         titleStyle={{ color: 'white' }} 
         buttonStyle={{ backgroundColor: '#36b6b0',borderRadius: 80}}
-        raised={true}></Button>
+        raised={true}></Button> */}
 
          <Button title="Voltar" onPress={() => navigation.goBack()}
          containerStyle={{borderRadius: 80,width: 320, marginLeft:30, marginTop:10}} 

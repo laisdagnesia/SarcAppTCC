@@ -68,10 +68,15 @@ export function FormularioDesempenhoScreen (props: any) {
     //==================================================
     
     // ==================================================
+    // const handleAvancar = async () => {
+    //     setDesempenho({ forcaPalmar, tempoLevantar, massaMuscularApendicular, indiceMassaMuscularApendicular, velocidadeMarcha })
+    //     navigation.navigate('resultadoAntropometria');
+    // }
+//AJUSTAR AQUI
     const handleAvancar = async () => {
-        setDesempenho({ forcaPalmar, tempoLevantar, massaMuscularApendicular, indiceMassaMuscularApendicular, velocidadeMarcha })
-        navigation.navigate('resultadoAntropometria');
-    }
+      setDesempenho({ forcaPalmar, tempoLevantar, massaMuscularApendicular, indiceMassaMuscularApendicular, velocidadeMarcha })
+      navigation.navigate('avaliacaoSarcopenia', );
+  }
     // ==================================================
    return (
     <ScrollView>
@@ -139,8 +144,18 @@ export function FormularioDesempenhoScreen (props: any) {
     onChangeText={setCaminhadaCurta}
     keyboardType="number-pad"
     value={caminhadaCurta}/>
-  <Button 
+  {/* <Button 
       title="Resultados"
+      style={styles.button}
+      titleStyle={{ color: 'white' }}
+      containerStyle={{borderRadius: 80,width: 320, marginLeft:30}} 
+      buttonStyle={{ backgroundColor: '#36b6b0',borderRadius: 80}}
+      onPress={handleAvancar}  
+      raised={true}></Button> */}
+        <Button 
+
+
+      title="Resultado Desempenho"
       style={styles.button}
       titleStyle={{ color: 'white' }}
       containerStyle={{borderRadius: 80,width: 320, marginLeft:30}} 

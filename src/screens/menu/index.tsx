@@ -13,7 +13,7 @@ export function MenuScreen(props: any) {
             source={require('./../../../assets/images/menu.png')}
         >
         <Button 
-            title="Resultado Triagem"
+            title="Resultado Antropometria"
             style={styles.button}
             buttonStyle={styles.button}
             titleStyle={{ color: 'white' }}

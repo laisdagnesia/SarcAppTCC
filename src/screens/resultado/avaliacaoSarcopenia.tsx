@@ -1,223 +1,169 @@
 import * as React from 'react';
-import { View, Text,StyleSheet,ImageBackground, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, ImageBackground, ScrollView } from 'react-native';
 import { usePacienteContext } from '../../context/pacientes';
-import { RouteProp, useNavigation } from "@react-navigation/native";
+import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 import { StackNavigationProp } from '@react-navigation/stack';
 import { NavegacaoPrincipalParams } from '../navigation/config';
-import { Button} from '@rneui/themed';
+import { Button } from '@rneui/themed';
 
-interface AvaliacaoProps {
-    route: RouteProp<NavegacaoPrincipalParams, 'avaliacaoSarcopenia'>
-}
+export function AvaliacaoSarcopeniaScreen() {
+  const navigation = useNavigation<StackNavigationProp<NavegacaoPrincipalParams, 'menu'>>();
+  const route = useRoute<RouteProp<NavegacaoPrincipalParams, 'avaliacaoSarcopenia'>>();
 
-export function AvaliacaoSarcopeniaScreen ({route}: AvaliacaoProps) {
-    type navProps = StackNavigationProp<NavegacaoPrincipalParams,  'menu' , 'resultadoDetalhado'>;
-    const navigation = useNavigation<navProps>();
-    const { IMC, IMMEA, MMEA  } = route.params;
+  // 🛡️ Proteção caso os dados não venham (evita crash do app)
+  const { IMC = 0, IMMEA = 0, MMEA = 0 } = route.params || {};
 
-    const { paciente, pontosSarc, desempenho } = usePacienteContext();
-    
-    const [ baixaMassaMuscular, setBaixaMassaMuscular]  =  React.useState<boolean>(false);
+  const { paciente, pontosSarc, desempenho, setFormularioSarcF, setDesempenho, setPontosSarc } = usePacienteContext();
 
-    const [ sarcF, setSarcF ] = React.useState<boolean>(false)
-    const [ sarcFAC, setSarcFAC ] = React.useState<boolean>(false)
-    const [ sarcCalF, setSarcCalF ] = React.useState<boolean>(false)
-    const [ sarcFEBM, setSarcFEBM ] = React.useState<boolean>(false)
-    const [ sarcCalFAC, setSarcCalFAC ] = React.useState<boolean>(false)
-    //--------------
+  const [baixaMassaMuscular, setBaixaMassaMuscular] = React.useState(false);
+  const [sarcF, setSarcF] = React.useState(false);
+  const [sarcFAC, setSarcFAC] = React.useState(false);
+  const [sarcCalF, setSarcCalF] = React.useState(false);
+  const [sarcFEBM, setSarcFEBM] = React.useState(false);
+  const [sarcCalFAC, setSarcCalFAC] = React.useState(false);
+  const [baixaForcaMuscular, setBaixaForcaMuscular] = React.useState(false);
+  const [baixoDesempenhoFisico, setBaixoDesempenhoFisico] = React.useState(false);
 
-    const [ baixaForcaMuscular, setBaixaForcaMuscular]  =  React.useState<boolean>(false);
-    const [ baixoDesempenhoFisico, setBaixoDesempenhoFisico]  =  React.useState<boolean>(false);
-    // ------------
+  const handleNovaAvaliacao = () => {
+    setFormularioSarcF(undefined);
+    setDesempenho(undefined);
+    setPontosSarc(0);
+    navigation.navigate('inicio');
+  };
 
-    const {setFormularioSarcF, setDesempenho, setPontosSarc} = usePacienteContext();
+  const pontuacoesFinais = () => {
+    if (!paciente) return;
 
-const handleNovaAvaliacao = () => {
-  setFormularioSarcF(undefined);
-  setDesempenho(undefined);
-  setPontosSarc(0);
-  navigation.navigate('menu');
-};
-    // ===================================
-    const pontuacoesFinais = async () => {
-       
-        if (paciente) {
-            // ========= PONTUAÇÕES SARC ===========//
-            //SARC-F
-            if (pontosSarc >=4)
-                {
-                    setSarcF(true)
-                }
-           
+    if (pontosSarc >= 4) setSarcF(true);
 
-            //SARC-F+AC
-            let pontos = pontosSarc;
-            if (paciente?.circBraco) {
-                if(paciente.sexo == 'feminino'){
-                    pontos += paciente.circBraco <= 25 ? 10 : 0
-
-                } else {
-                    pontos += paciente.circBraco <= 27 ? 10 : 0
-                }
-                setSarcFAC(pontos >= 10)   
-            }
-            
-            // SARC-CALF
-            let pontosCalf = pontosSarc;
-            if(paciente?.circBraco ){
-                if (paciente.sexo == 'feminino') {
-                    pontosCalf+= paciente.circPant <= 33 ? 10 :0
-                } else {
-                    pontosCalf += paciente.circPant <= 34 ? 10 : 0
-                }
-                setSarcCalF(pontosCalf >= 11)
-            }
-            
-            // SARC-F + EBM
-            let pontosEBM = pontosSarc;
-            pontosEBM += paciente.idade >= 75 ? 10 : 0
-            pontosEBM += IMC <= 21 ? 10 : 0
-            setSarcFEBM(pontosEBM >= 12)
-            
-            // SARC-CalF+AC 
-            let pontosCalFAC = pontosSarc;
-            if(paciente.sexo == 'feminino' && paciente.circPant && paciente.circBraco){
-                pontosCalFAC += paciente.circPant <= 33 ? 10 : 0
-                pontosCalFAC += paciente.circBraco <= 25 ? 10 : 0
-            } else if (paciente.sexo == 'masculino' && paciente.circBraco && paciente.circPant) {
-                pontosCalFAC += paciente.circPant <= 34 ? 10 : 0
-                pontosCalFAC += paciente.circBraco <= 27 ? 10 : 0
-            }
-           setSarcCalFAC(pontosCalFAC >= 11)
-        }
-    }
-    
-    const diagnostico = () => {
-
-        let baixaForcaMuscular = false;
-        let baixoDesempenhoFisico = false;
-        let baixaMassaMuscular = false;
-        if (paciente && desempenho) {
-            
-            // =============== BAIXA MASSA MUSCULAR ===============//
-            //BASEADO NO MMEA
-            if(paciente.sexo == 'masculino' && MMEA < 20 )
-                baixaMassaMuscular = true;
-            else if(paciente.sexo == 'feminino' && MMEA <15)
-                baixaMassaMuscular = true;
-            
-            //BASEADO NO IMMEA
-            if(paciente.sexo == 'masculino' && IMMEA < 7)
-                baixaMassaMuscular = true;
-            else if(paciente.sexo == 'feminino' && IMMEA < 5.5 )
-                baixaMassaMuscular = true;
-            
-            setBaixaMassaMuscular(baixaMassaMuscular)
-
-            // ================= FORÇA MUSCULAR =============//
-            //Força Palmar
-            if ((paciente.sexo === 'masculino' && desempenho?.forcaPalmar < 27) || 
-                (paciente.sexo === 'feminino' && desempenho?.forcaPalmar < 16)) 
-                baixaForcaMuscular = true;
-
-            // TEMPO LEVANTAR
-            if (desempenho.tempoLevantar != '' && desempenho.tempoLevantar > 15) baixaForcaMuscular = true;
-
-            // VELOCIDADE MARCHA
-            if (desempenho.velocidadeMarcha != '' && desempenho.velocidadeMarcha <= 0.8) baixoDesempenhoFisico = true;
-
-            // SHORT PHYSICAL PERFORMANCE
-            if (desempenho.shortPhysicalPerformance != '' && desempenho.shortPhysicalPerformance <= 8) baixoDesempenhoFisico = true;
-                    
-            // TIME UP GO
-            if (desempenho.timeUp != '' && desempenho.timeUp >= 20) baixoDesempenhoFisico = true;
-
-            // CAMINHADA CURTA
-            if (desempenho?.caminhadaCurta != '' && desempenho.caminhadaCurta >= 6) baixoDesempenhoFisico = true;
-                    }
-
-    
-        setBaixaForcaMuscular(baixaForcaMuscular)
-        setBaixoDesempenhoFisico(baixoDesempenhoFisico)
+    let pontos = pontosSarc;
+    if (paciente.circBraco) {
+      pontos += paciente.sexo === 'feminino'
+        ? (paciente.circBraco <= 25 ? 10 : 0)
+        : (paciente.circBraco <= 27 ? 10 : 0);
+      setSarcFAC(pontos >= 10);
     }
 
+    let pontosCalf = pontosSarc;
+    if (paciente.circPant) {
+      pontosCalf += paciente.sexo === 'feminino'
+        ? (paciente.circPant <= 33 ? 10 : 0)
+        : (paciente.circPant <= 34 ? 10 : 0);
+      setSarcCalF(pontosCalf >= 11);
+    }
 
-    // ---------
-    React.useEffect(() => {
-        diagnostico()
-        pontuacoesFinais()
-    }, [])
+    let pontosEBM = pontosSarc;
+    pontosEBM += paciente.idade >= 75 ? 10 : 0;
+    pontosEBM += IMC <= 21 ? 10 : 0;
+    setSarcFEBM(pontosEBM >= 12);
 
-    // ====================================
-    return (
-        <ScrollView contentContainerStyle={styles.scrollContainer}>
-        <ImageBackground style={styles.container}
-        source={require('./../../../assets/images/avaliacaoAntro.png')}
-      >
+    let pontosCalFAC = pontosSarc;
+    if (paciente.circPant && paciente.circBraco) {
+      if (paciente.sexo === 'feminino') {
+        pontosCalFAC += paciente.circPant <= 33 ? 10 : 0;
+        pontosCalFAC += paciente.circBraco <= 25 ? 10 : 0;
+      } else {
+        pontosCalFAC += paciente.circPant <= 34 ? 10 : 0;
+        pontosCalFAC += paciente.circBraco <= 27 ? 10 : 0;
+      }
+      setSarcCalFAC(pontosCalFAC >= 11);
+    }
+  };
 
-<Text style={[styles.texto]}>
-  Força muscular: 
-  {desempenho?.forcaPalmar || desempenho?.tempoLevantar  
-    ? baixaForcaMuscular 
-      ? ' Baixa' 
-      : ' Preservada' 
-    : ' Não tem dados suficientes'}
-</Text>
+  const diagnostico = () => {
+    let baixaForca = false;
+    let baixoDesempenho = false;
+    let baixaMassa = false;
 
-<Text style={[styles.texto]}>Massa mascular: {baixaMassaMuscular ? 'Baixa' : 'Preservada'}</Text>
+    if (paciente && desempenho) {
+      // MMEA e IMMEA
+      if ((paciente.sexo === 'masculino' && MMEA < 20) || (paciente.sexo === 'feminino' && MMEA < 15))
+        baixaMassa = true;
+      if ((paciente.sexo === 'masculino' && IMMEA < 7) || (paciente.sexo === 'feminino' && IMMEA < 5.5))
+        baixaMassa = true;
 
-<Text style={[styles.texto]}>
-Desempenho físico: 
-  {(desempenho?.velocidadeMarcha || 
-    desempenho?.shortPhysicalPerformance || 
-    desempenho?.timeUp || 
-    desempenho?.caminhadaCurta) 
-    ? (baixoDesempenhoFisico 
-        ? ' Baixo desempenho físico' 
-        : ' Desempenho físico preservado') 
-    : ' Não tem dados suficientes'}
+      // Força
+      if ((paciente.sexo === 'masculino' && desempenho.forcaPalmar < 27) ||
+          (paciente.sexo === 'feminino' && desempenho.forcaPalmar < 16))
+        baixaForca = true;
 
-</Text>
-         <Text style={[styles.texto]}>Diagnostico para Sarcopenia: { baixaForcaMuscular && baixaMassaMuscular && baixoDesempenhoFisico ? 'Paciente sarcopênico grave' :
-        baixaMassaMuscular && (baixaForcaMuscular || baixoDesempenhoFisico) ? 'Paciente sarcopênico' :
-        baixaForcaMuscular || baixoDesempenhoFisico ? 'Paciente com sarcopenia provável ' : 'Paciente não sarcopênico'}</Text>
+      if (desempenho.tempoLevantar && desempenho.tempoLevantar > 15)
+        baixaForca = true;
 
-        <Button title="Nova Avaliação"
-        onPress= {handleNovaAvaliacao} 
-        containerStyle={{borderRadius: 80,width: 320, marginLeft:30, marginTop:10, marginTop:20}} 
+      // Desempenho físico
+      if (desempenho.velocidadeMarcha && desempenho.velocidadeMarcha <= 0.8)
+        baixoDesempenho = true;
+      if (desempenho.shortPhysicalPerformance && desempenho.shortPhysicalPerformance <= 8)
+        baixoDesempenho = true;
+      if (desempenho.timeUp && desempenho.timeUp >= 20)
+        baixoDesempenho = true;
+      if (desempenho.caminhadaCurta && desempenho.caminhadaCurta >= 6)
+        baixoDesempenho = true;
+    }
+
+    setBaixaMassaMuscular(baixaMassa);
+    setBaixaForcaMuscular(baixaForca);
+    setBaixoDesempenhoFisico(baixoDesempenho);
+  };
+
+  React.useEffect(() => {
+    diagnostico();
+    pontuacoesFinais();
+  }, []);
+
+  return (
+    <ScrollView contentContainerStyle={styles.scrollContainer}>
+      <ImageBackground style={styles.container} source={require('./../../../assets/images/avaliacaoAntro.png')}>
+        <Text style={styles.texto}>Força muscular: {desempenho?.forcaPalmar || desempenho?.tempoLevantar ? (baixaForcaMuscular ? 'Baixa' : 'Preservada') : 'Não tem dados suficientes'}</Text>
+        <Text style={styles.texto}>Massa muscular: {baixaMassaMuscular ? 'Baixa' : 'Preservada'}</Text>
+        <Text style={styles.texto}>Desempenho físico: {(desempenho?.velocidadeMarcha || desempenho?.shortPhysicalPerformance || desempenho?.timeUp || desempenho?.caminhadaCurta) ? (baixoDesempenhoFisico ? 'Baixo desempenho físico' : 'Desempenho físico preservado') : 'Não tem dados suficientes'}</Text>
+        <Text style={styles.texto}>
+          Diagnóstico para Sarcopenia: {
+            baixaForcaMuscular && baixaMassaMuscular && baixoDesempenhoFisico
+              ? 'Paciente sarcopênico grave'
+              : baixaMassaMuscular && (baixaForcaMuscular || baixoDesempenhoFisico)
+              ? 'Paciente sarcopênico'
+              : (baixaForcaMuscular || baixoDesempenhoFisico)
+              ? 'Paciente com sarcopenia provável'
+              : 'Paciente não sarcopênico'
+          }
+        </Text>
+        <Button title="Resultados da Triagem"
+        onPress= {() => navigation.navigate('resultadoDetalhado',{IMC, IMMEA, MMEA})}  
+        style={styles.button}
+        containerStyle={{borderRadius: 80,width: 320, marginLeft:30,marginTop:20}}
+        titleStyle={{ color: 'white' }} 
         buttonStyle={{ backgroundColor: '#36b6b0',borderRadius: 80}}
-        titleStyle={{ color: 'white' }}
         raised={true}></Button>
-
-         <Button title="Voltar" onPress={() => navigation.goBack()}
-         containerStyle={{borderRadius: 80,width: 320, marginLeft:30, marginTop:10}} 
-         buttonStyle={{ backgroundColor: '#bbf5f0',borderRadius: 80}}
-        raised={true}></Button>
-         </ImageBackground>
-         </ScrollView>
-    );
+        <Button title="Voltar" onPress={() => navigation.goBack()} containerStyle={{ borderRadius: 80, width: 320, marginLeft: 30, marginTop: 10 }} buttonStyle={{ backgroundColor: '#bbf5f0', borderRadius: 80 }} />
+      </ImageBackground>
+    </ScrollView>
+  );
 }
+
 const styles = StyleSheet.create({
-    background: {
-        width: '100%',
-        height: '100%',
-      },
-      container: {
-        flex: 1,
-        justifyContent: 'center',
-      },
-    texto:{
-      color:'black',
-      marginLeft:10, 
-      fontSize:20, 
-      fontWeight: 'bold',
-      marginTop:10, 
-      marginBottom:10,
-      padding:5
-    },
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+  },
+  texto: {
+    color: 'black',
+    marginLeft: 10,
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginTop: 10,
+    marginBottom: 10,
+    padding: 5,
+  },
+  button: {
+    backgroundColor: 'white',
+    borderRadius: 80,
+    height: 40,
+    width: 400,
+    marginTop:60
+  },
   scrollContainer: {
     flexGrow: 1,
-   justifyContent: 'center',
+    justifyContent: 'center',
   },
-
 });

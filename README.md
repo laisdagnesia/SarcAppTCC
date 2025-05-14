@@ -1,5 +1,5 @@
 # SarcAppTCC
-Versão Final do SarcApp
+Versão Final do SarcApp e compartilhada. 
 
 ❯ npm start -> rodar aplicacao
 

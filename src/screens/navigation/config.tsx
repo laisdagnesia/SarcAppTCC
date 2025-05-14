@@ -8,7 +8,7 @@ import { FormularioDesempenhoScreen } from "../formularioDesempenho";
 import { PacienteProvider } from "../../context/pacientes";
 import { ResultadoAntropometriaScreen } from "../resultado/resultadoAntropometria";
 import { AvaliacaoSarcopeniaScreen } from "../resultado/avaliacaoSarcopenia";
-import {ResultadoDetalhadoScreen}from "../resultado/resultadoDetalhado";
+import {ResultadoDetalhadoScreen}from "../resultado/resultadoTriagem";
 import * as React from 'react';
 
 

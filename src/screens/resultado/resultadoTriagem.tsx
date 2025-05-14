@@ -174,12 +174,12 @@ const pontuacoesFinais = async () => {
         
         <Text style={[styles.texto]}> Sarc-CalF+AC:{pontosSarc < 0 ? ' Dados insuficientes' : paciente?.circBraco && paciente?.circPant ? (sarcCalFAC ? 'Sugestivo de sarcopenia' : 'Paciente não sarcopênico') : ' Não tem dados suficientes'}</Text>
         <Button 
-        title="Diagnóstico para Sarcopenia"
+        title="Avaliação para Sarcopenia"
         style={styles.button}
         containerStyle={{borderRadius: 80,width: 320, marginLeft:30,marginTop:20}}
         titleStyle={{ color: 'white' }} 
         buttonStyle={{ backgroundColor: '#36b6b0',borderRadius: 80}}
-        onPress= {() => navigation.navigate('avaliacaoSarcopenia', {IMC, IMMEA, MMEA})}  
+        onPress= {() => navigation.navigate('formularioDesempenho')}  
         raised={true}></Button>
 
          <Button title="Voltar" onPress={() => navigation.goBack()}

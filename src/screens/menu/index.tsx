@@ -23,7 +23,7 @@ export function MenuScreen(props: any) {
         </Button>
 
         <Button 
-                title="Formulário Sarc-F"
+                title="Formulário de Triagem"
                 style={styles.button}
                 buttonStyle={styles.button}
                 titleStyle={{ color: 'white' }}
@@ -31,7 +31,7 @@ export function MenuScreen(props: any) {
                 onPress= {() => navigation.navigate('formularioSarcF')} 
                 raised={true}></Button>
            <Button 
-                title="Avaliação para Desempenho Físico"
+                title="Avaliação para Sarcopenia"
                 style={styles.button}
                 buttonStyle={styles.button}
                 titleStyle={{ color: 'white' }}

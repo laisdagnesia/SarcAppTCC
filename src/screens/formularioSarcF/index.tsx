@@ -19,8 +19,9 @@ export function FormularioSarcFScreen (props: any) {
     const  { setPontosSarc } = usePacienteContext();
     const {setFormularioSarcF,formularioSarcF} = usePacienteContext();
 
-    // =====================================
-    const getPontos = (variavel: string) => {
+    // // =====================================
+
+      const getPontos = (variavel: string) => {
       switch(variavel) { 
         case '' : return -1;
         case "nenhuma": return 0;
@@ -30,50 +31,112 @@ export function FormularioSarcFScreen (props: any) {
       }
     }
 
-    const handleAvancar = async () => {
-      if (!forca || !assistencia || !levantar || !subir || !quedas) {
-        Alert.alert(
-          'Atenção',
-          'Você não selecionou todas as opções. Isso pode afetar a precisão do resultado. Deseja continuar?',
-          [
-            {
-              text: 'Sim, continuar',
-              onPress: () => {
-                let pontos = 0;
-                pontos += getPontos(forca);
-                pontos += getPontos(assistencia);
-                pontos += getPontos(levantar);
-                pontos += getPontos(subir);
-                pontos += getPontos(quedas);
+const handleAvancar = async () => {
+  const IMC = 0;
+  const IMMEA = 0;
+  const MMEA = 0;
+
+  if (!forca || !assistencia || !levantar || !subir || !quedas) {
+    Alert.alert(
+      'Atenção',
+      'Você não selecionou todas as opções. Isso pode afetar a precisão do resultado. Deseja continuar?',
+      [
+        {
+          text: 'Sim, continuar',
+          onPress: () => {
+            let pontos = 0;
+            pontos += getPontos(forca);
+            pontos += getPontos(assistencia);
+            pontos += getPontos(levantar);
+            pontos += getPontos(subir);
+            pontos += getPontos(quedas);
+
+            console.log(`Pontos totais: ${pontos}`);
+
+            setFormularioSarcF({ forca, assistencia, levantar, subir, quedas });
+            setPontosSarc(pontos);
+
+            // ✅ Navega enviando os dados
+            navigation.navigate('resultadoDetalhado', {
+              IMC,
+              IMMEA,
+              MMEA
+            });
+          },
+        },
+        {
+          text: 'Não, voltar',
+          onPress: () => {},
+        },
+      ]
+    );
+  } else {
+    let pontos = 0;
+    pontos += getPontos(forca);
+    pontos += getPontos(assistencia);
+    pontos += getPontos(levantar);
+    pontos += getPontos(subir);
+    pontos += getPontos(quedas);
+
+    console.log(`Pontos totais: ${pontos}`);
+
+    setFormularioSarcF({ forca, assistencia, levantar, subir, quedas });
+    setPontosSarc(pontos);
+
+    // ✅ Navega enviando os dados
+    navigation.navigate('resultadoDetalhado', {
+      IMC,
+      IMMEA,
+      MMEA
+    });
+  }
+};
+
+
+    // const handleAvancar = async () => {
+    //   if (!forca || !assistencia || !levantar || !subir || !quedas) {
+    //     Alert.alert(
+    //       'Atenção',
+    //       'Você não selecionou todas as opções. Isso pode afetar a precisão do resultado. Deseja continuar?',
+    //       [
+    //         {
+    //           text: 'Sim, continuar',
+    //           onPress: () => {
+    //             let pontos = 0;
+    //             pontos += getPontos(forca);
+    //             pontos += getPontos(assistencia);
+    //             pontos += getPontos(levantar);
+    //             pontos += getPontos(subir);
+    //             pontos += getPontos(quedas);
     
-                console.log(`Pontos totais: ${pontos}`);
+    //             console.log(`Pontos totais: ${pontos}`);
      
-                setFormularioSarcF({ forca, assistencia, levantar, subir, quedas });
-                setPontosSarc(pontos);
-                navigation.navigate('formularioDesempenho');
-              },
-            },
-            {
-              text: 'Não, voltar',
-              onPress: () => {},
-            },
-          ]
-        );
-      } else {
-        let pontos = 0;
-        pontos += getPontos(forca);
-        pontos += getPontos(assistencia);
-        pontos += getPontos(levantar);
-        pontos += getPontos(subir);
-        pontos += getPontos(quedas);
+    //             setFormularioSarcF({ forca, assistencia, levantar, subir, quedas });
+    //             setPontosSarc(pontos);
+    //             navigation.navigate('formularioDesempenho');
+    //           },
+    //         },
+    //         {
+    //           text: 'Não, voltar',
+    //           onPress: () => {},
+    //         },
+    //       ]
+    //     );
+    //   } else {
+    //     let pontos = 0;
+    //     pontos += getPontos(forca);
+    //     pontos += getPontos(assistencia);
+    //     pontos += getPontos(levantar);
+    //     pontos += getPontos(subir);
+    //     pontos += getPontos(quedas);
     
-        console.log(`Pontos totais: ${pontos}`);
+    //     console.log(`Pontos totais: ${pontos}`);
      
-        setFormularioSarcF({ forca, assistencia, levantar, subir, quedas });
-        setPontosSarc(pontos);
-        navigation.navigate('formularioDesempenho');
-      }
-    }
+    //     setFormularioSarcF({ forca, assistencia, levantar, subir, quedas });
+    //     setPontosSarc(pontos);
+    //     navigation.navigate('formularioDesempenho');
+    //   }
+    // }
     
   useEffect(() => {
     // Atualiza o contexto apenas se os valores mudarem
@@ -176,12 +239,13 @@ const handleVoltar = () => {
          onPress={handleAvancar}  
           raised={true}></Button> */}
           <Button 
-          title="Resultado para Sarcopenia"
+          title="Resultado da Triagem"
           style={styles.button}
           titleStyle={{ color: 'white' }}
           containerStyle={{borderRadius: 80,width: 320, marginLeft:40, marginTop:10}} 
           buttonStyle={{ backgroundColor: '#36b6b0',borderRadius: 80}}
-          onPress= {() => navigation.navigate('resultadoDetalhado', {IMC: 0, IMMEA: 0, MMEA: 0})} 
+          onPress={handleAvancar}  
+          //onPress= {() => navigation.navigate('resultadoDetalhado', {IMC: 0, IMMEA: 0, MMEA: 0})} 
           raised={true}></Button>
           <Button title="Voltar" 
           onPress={() => navigation.goBack()}

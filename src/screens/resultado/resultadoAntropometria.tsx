@@ -241,8 +241,10 @@ export function ResultadoAntropometriaScreen () {
         
         {/* ALTURA */}
 
-        <Text style={[styles.texto]}>Altura{(alturaEstimada ? ' Estimada' : '')}: {altura !== null && altura !== undefined && altura !== '' ? altura + ' metros' : 'Não informado'}</Text>
-        
+        {/* <Text style={[styles.texto]}>Altura{(alturaEstimada ? ' Estimada' : '')}: {altura !== null && altura !== undefined && altura !== '' ? altura + ' metros' : 'Não informado'}</Text>
+         */}
+         {alturaEstimada && (<Text style={styles.texto}>Altura Estimada: {altura ? `${altura.toFixed(2)} metros` : 'Não informado'}</Text>)}
+
         {/* IMC */}
 
         <Text style={styles.texto}>IMC{(IMCEstimado  ? ' Estimado' : '')}: {IMC !== null && IMC !== undefined && IMC !== '' && IMC <= 2000 ? IMC.toFixed(2) : 'Não informado'}</Text>

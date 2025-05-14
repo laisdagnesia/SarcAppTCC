@@ -155,7 +155,7 @@ export function FormularioDesempenhoScreen (props: any) {
         <Button 
 
 
-      title="Resultado Desempenho"
+      title="Diagnóstico para Sarcopenia"
       style={styles.button}
       titleStyle={{ color: 'white' }}
       containerStyle={{borderRadius: 80,width: 320, marginLeft:30}} 

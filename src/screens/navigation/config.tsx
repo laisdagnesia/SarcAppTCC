@@ -7,7 +7,7 @@ import { FormularioSarcFScreen } from "../formularioSarcF";
 import { FormularioDesempenhoScreen } from "../formularioDesempenho";
 import { PacienteProvider } from "../../context/pacientes";
 import { ResultadoAntropometriaScreen } from "../resultado/resultadoAntropometria";
-import { AvaliacaoSarcopeniaScreen } from "../resultado/avaliacaoSarcopenia";
+import { AvaliacaoSarcopeniaScreen } from "../resultado/diagnosticoSarcopenia";
 import {ResultadoDetalhadoScreen}from "../resultado/resultadoTriagem";
 import * as React from 'react';
 

@@ -268,14 +268,6 @@ export function ResultadoAntropometriaScreen () {
     {IMC > 29.9 && (MMEAEstimado || IMMEAEstimado) && (<Text style={[styles.texto, {marginBottom: 50, color: 'red', fontWeight: 'bold', backgroundColor: '#F7DC6F', padding: 10, marginRight: 10}]}>
         Observação: Não foi possível calcular o MMEA e o IMMEA pois o IMC é maior que 29.9 </Text>)}
 
-        {/* <Button title="Resultados da Triagem"
-        onPress= {() => navigation.navigate('resultadoDetalhado',{IMC, IMMEA, MMEA})}  
-        style={styles.button}
-        containerStyle={{borderRadius: 80,width: 320, marginLeft:30,marginTop:20}}
-        titleStyle={{ color: 'white' }} 
-        buttonStyle={{ backgroundColor: '#36b6b0',borderRadius: 80}}
-        raised={true}></Button> */}
-
          <Button title="Voltar" onPress={() => navigation.goBack()}
          containerStyle={{borderRadius: 80,width: 320, marginLeft:30, marginTop:10}} 
          buttonStyle={{ backgroundColor: '#bbf5f0',borderRadius: 80}}

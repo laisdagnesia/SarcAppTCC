@@ -14,7 +14,7 @@ export function AvaliacaoSarcopeniaScreen() {
 
     const handleIniciar = async () => {
     await resetarAvaliacao(); 
-    navigation.navigate('cadastroPaciente'); 
+    navigation.navigate('inicio'); 
   };
 
   const { IMC = 0, IMMEA = 0, MMEA = 0 } = route.params || {};

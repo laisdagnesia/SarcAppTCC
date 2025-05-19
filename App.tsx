@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { TelaConfiguracao } from './src/screens/navigation/config';
 import * as Updates from 'expo-updates';
 import { StatusBar, View } from 'react-native';
-import { PacienteProvider } from './src/context/pacientes'; // Mantém aqui!
+import { PacienteProvider } from './src/context/pacientes';
 
 export default function App() {
   const atualizar = async () => {

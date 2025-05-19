@@ -30,43 +30,6 @@ export function CadastroPaciente (props: any) {
           const num = typeof valor === 'string' ? parseFloat(valor.replace(',', '.')) : valor;
           return isNaN(num) ? 0 : num;
         };
-    // ================================
-  //   const handleAvancar = () => {
-  //     setPaciente({
-  //       idade, sexo, raca, peso, altura, circBraco, circPant, alturaJoelho, diametroCintura, diametroQuadril
-  //     })
-  //     if (idade.trim() === '' || isNaN(Number(idade))) {
-  //       Alert.alert('Por favor, insira uma idade válida.');
-  //       return; 
-  //     }
-  //     if (sexo.trim() === '') {
-  //       Alert.alert('Por favor, selecione o sexo.');
-  //       return; 
-  //     }
-  //     if (raca.trim() === '') {
-  //       Alert.alert('Por favor, selecione a raça.');
-  //       return; 
-  //     }
-  //     navigation.navigate('menu')
-  //   }
-
-  // const formatarNumero = (text) => {
-  //   let formattedText = '';
-
-  //   for (let i = 0; i < text.length; i++) {
-  //     const char = text[i];
-  //     if (char === ',') {
-  //       formattedText += '.';
-  //     } else {
-  //       formattedText += char;
-  //     }
-  //   }
-
-  //   if (/^\d*\.?\d*$/.test(formattedText)) {
-  //     return formattedText;
-  //   }
-  //   return ''; 
-  // };
 
   const handleAvancar = () => {
     // Verificações

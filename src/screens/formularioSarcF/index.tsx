@@ -1,76 +1,36 @@
 import React, {useState, useEffect} from "react";
-import { Text, ImageBackground, StyleSheet,TextInput, Alert} from 'react-native';
+import { Text, ImageBackground, StyleSheet, Alert, View } from 'react-native';
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from '@react-navigation/stack';
 import { NavegacaoPrincipalParams } from '../navigation/config';
 import { Button } from '@rneui/themed';
-import { Picker } from '@react-native-picker/picker'
+import { Picker } from '@react-native-picker/picker';
 import { usePacienteContext } from "../../context/pacientes";
+import { useLanguage } from "../../context/LanguageContext";
 
-export function FormularioSarcFScreen (props: any) {
-    const [forca, setForca] = useState('');
-    const [assistencia, setAssistencia] = useState ('');
-    const [ levantar, setLevantar] = useState(''); 
-    const [ subir, setSubir] = useState(''); 
-    const [ quedas, setQuedas] = useState(''); 
+export function FormularioSarcFScreen() {
+  const [forca, setForca] = useState('');
+  const [assistencia, setAssistencia] = useState('');
+  const [levantar, setLevantar] = useState('');
+  const [subir, setSubir] = useState('');
+  const [quedas, setQuedas] = useState('');
 
-    type navProps = StackNavigationProp<NavegacaoPrincipalParams,  'menu' , 'formularioDesempenho'>;
-    const navigation = useNavigation<navProps>();
-    const  { setPontosSarc } = usePacienteContext();
-    const {setFormularioSarcF,formularioSarcF} = usePacienteContext();
+  type navProps = StackNavigationProp<NavegacaoPrincipalParams, 'menu', 'formularioDesempenho'>;
+  const navigation = useNavigation<navProps>();
+  const { setPontosSarc, setFormularioSarcF, formularioSarcF } = usePacienteContext();
+  const { t, lang } = useLanguage();
 
-    // // =====================================
-
-      const getPontos = (variavel: string) => {
-      switch(variavel) { 
-        case '' : return -1;
-        case "nenhuma": return 0;
-        case "alguma": return 1; 
-        case "muito": return 2; 
-        default: return 0;
-      }
+  const getPontos = (variavel: string) => {
+    switch (variavel) {
+      case '': return -1;
+      case 'nenhuma': return 0;
+      case 'alguma': return 1;
+      case 'muito': return 2;
+      default: return 0;
     }
+  };
 
-const handleAvancar = async () => {
-  const IMC = 0;
-  const IMMEA = 0;
-  const MMEA = 0;
-
-  if (!forca || !assistencia || !levantar || !subir || !quedas) {
-    Alert.alert(
-      'Atenção',
-      'Você não selecionou todas as opções. Isso pode afetar a precisão do resultado. Deseja continuar?',
-      [
-        {
-          text: 'Sim, continuar',
-          onPress: () => {
-            let pontos = 0;
-            pontos += getPontos(forca);
-            pontos += getPontos(assistencia);
-            pontos += getPontos(levantar);
-            pontos += getPontos(subir);
-            pontos += getPontos(quedas);
-
-            console.log(`Pontos totais: ${pontos}`);
-
-            setFormularioSarcF({ forca, assistencia, levantar, subir, quedas });
-            setPontosSarc(pontos);
-
-            // ✅ Navega enviando os dados
-            navigation.navigate('resultadoDetalhado', {
-              IMC,
-              IMMEA,
-              MMEA
-            });
-          },
-        },
-        {
-          text: 'Não, voltar',
-          onPress: () => {},
-        },
-      ]
-    );
-  } else {
+  const calcularPontosESeguir = () => {
     let pontos = 0;
     pontos += getPontos(forca);
     pontos += getPontos(assistencia);
@@ -78,68 +38,32 @@ const handleAvancar = async () => {
     pontos += getPontos(subir);
     pontos += getPontos(quedas);
 
-    console.log(`Pontos totais: ${pontos}`);
-
     setFormularioSarcF({ forca, assistencia, levantar, subir, quedas });
     setPontosSarc(pontos);
 
-    // ✅ Navega enviando os dados
     navigation.navigate('resultadoDetalhado', {
-      IMC,
-      IMMEA,
-      MMEA
+      IMC: 0,
+      IMMEA: 0,
+      MMEA: 0,
     });
-  }
-};
+  };
 
+  const handleAvancar = async () => {
+    if (!forca || !assistencia || !levantar || !subir || !quedas) {
+      Alert.alert(
+        t('attention'),
+        t('sarcfIncompleteWarn'),
+        [
+          { text: t('yesContinue'), onPress: calcularPontosESeguir },
+          { text: t('noBack'), onPress: () => {} },
+        ]
+      );
+    } else {
+      calcularPontosESeguir();
+    }
+  };
 
-    // const handleAvancar = async () => {
-    //   if (!forca || !assistencia || !levantar || !subir || !quedas) {
-    //     Alert.alert(
-    //       'Atenção',
-    //       'Você não selecionou todas as opções. Isso pode afetar a precisão do resultado. Deseja continuar?',
-    //       [
-    //         {
-    //           text: 'Sim, continuar',
-    //           onPress: () => {
-    //             let pontos = 0;
-    //             pontos += getPontos(forca);
-    //             pontos += getPontos(assistencia);
-    //             pontos += getPontos(levantar);
-    //             pontos += getPontos(subir);
-    //             pontos += getPontos(quedas);
-    
-    //             console.log(`Pontos totais: ${pontos}`);
-     
-    //             setFormularioSarcF({ forca, assistencia, levantar, subir, quedas });
-    //             setPontosSarc(pontos);
-    //             navigation.navigate('formularioDesempenho');
-    //           },
-    //         },
-    //         {
-    //           text: 'Não, voltar',
-    //           onPress: () => {},
-    //         },
-    //       ]
-    //     );
-    //   } else {
-    //     let pontos = 0;
-    //     pontos += getPontos(forca);
-    //     pontos += getPontos(assistencia);
-    //     pontos += getPontos(levantar);
-    //     pontos += getPontos(subir);
-    //     pontos += getPontos(quedas);
-    
-    //     console.log(`Pontos totais: ${pontos}`);
-     
-    //     setFormularioSarcF({ forca, assistencia, levantar, subir, quedas });
-    //     setPontosSarc(pontos);
-    //     navigation.navigate('formularioDesempenho');
-    //   }
-    // }
-    
   useEffect(() => {
-    // Atualiza o contexto apenas se os valores mudarem
     if (
       formularioSarcF?.forca !== forca ||
       formularioSarcF?.assistencia !== assistencia ||
@@ -150,9 +74,8 @@ const handleAvancar = async () => {
       setFormularioSarcF({ forca, assistencia, levantar, subir, quedas });
     }
   }, [forca, assistencia, levantar, subir, quedas, formularioSarcF, setFormularioSarcF]);
-  
+
   useEffect(() => {
-    // Inicializa os estados locais com os dados do contexto
     if (formularioSarcF) {
       setForca(formularioSarcF.forca || '');
       setAssistencia(formularioSarcF.assistencia || '');
@@ -161,121 +84,136 @@ const handleAvancar = async () => {
       setQuedas(formularioSarcF.quedas || '');
     }
   }, []);
-  
 
-const handleVoltar = () => {
-  navigation.goBack();
-};
+  // Título dinâmico (preto + vermelho, 2 linhas)
+  const renderTitulo = () => (
+    <Text style={styles.titulo}>
+      <Text style={styles.preto}>{t('screening')}{'\n'}</Text>
+      <Text style={styles.preto}>SARC-F</Text>
+    </Text>
+  );
 
-   return (
-       <ImageBackground style={styles.container}
-        source={require('./../../../assets/images/formSarcF.png')}
+  // Helpers para label dos itens mantendo os valores salvos em PT
+  const labelNone = lang === 'en' ? 'None' : 'Nenhuma';
+  const labelSome = lang === 'en' ? 'Some' : 'Alguma';
+  const labelALot = lang === 'en' ? 'A lot / unable' : 'Muito ou incapaz';
+  const labelSelect = lang === 'en' ? 'Select' : 'Selecione';
+
+  return (
+    <ImageBackground style={styles.container} source={require('./../../../assets/images/bg.png')}>
+      {/* Título topo */}
+      <View style={styles.tituloContainer}>{renderTitulo()}</View>
+
+      <Text style={[styles.texto, { marginTop: 10 }]}>{t('sarcfQ1')}</Text>
+      <Picker
+        selectedValue={forca}
+        onValueChange={(value) => setForca(value)}
+        style={{ color: 'black' }}
       >
-        <Text style={[styles.texto, { marginTop: 100 }]}>Qual a sua dificuldade em carregar 10 libras (4.5kg)?</Text>
-        <Picker
-          selectedValue={forca}
-          onValueChange={(value) => setForca(value)}
-          style={{color: 'black'}}
-          placeholder="Selecione">
-            <Picker.Item label='Selecione' value=''/>
-            <Picker.Item label='Nenhuma' value='nenhuma'/>
-            <Picker.Item label='Alguma' value='alguma' />
-            <Picker.Item label='Muito ou incapaz' value='muito'/>
-            {/* <Picker.Item label='Incapaz' value='incapaz' /> */}
-          </Picker>
-        <Text style={styles.texto}>Qual a sua dificuldade em caminhar através de um cômodo?</Text>
-        <Picker
-          placeholder="Selecione"
-          selectedValue={assistencia}
-          style={{color: 'black'}}
-          onValueChange={(value) => setAssistencia(value)}>
-            <Picker.Item label='Selecione' value=''/>
-            <Picker.Item label='Nenhuma' value='nenhuma'/>
-            <Picker.Item label='Alguma' value='alguma' />
-            <Picker.Item label='Muito ou incapaz' value='muito'/>
-            {/* <Picker.Item label='Incapaz' value='incapaz' /> */}
-          </Picker>
-        <Text style={styles.texto}>Qual a sua dificuldade para levantar de uma cadeira ou cama?</Text>
-        <Picker
-          placeholder="Selecione"
-          selectedValue={levantar}
-          style={{color: 'black'}}
-          onValueChange={(value) => setLevantar(value)}>
-            <Picker.Item label='Selecione' value=''/>
-            <Picker.Item label='Nenhuma' value='nenhuma'/>
-            <Picker.Item label='Alguma' value='alguma' />
-            <Picker.Item label='Muito ou incapaz' value='muito'/>
-            {/* <Picker.Item label='Incapaz sem ajuda' value='incapaz' /> */}
-          </Picker>
-        <Text style={styles.texto}>Qual a sua dificuldade em subir 10 degraus?</Text>
-        <Picker
-          placeholder="Selecione"
-          selectedValue={subir}
-          style={{color: 'black'}}
-          onValueChange={(value) => setSubir(value)}>
-            <Picker.Item label='Selecione' value=''/>
-            <Picker.Item label='Nenhuma' value='nenhuma'/>
-            <Picker.Item label='Alguma' value='alguma' />
-            <Picker.Item label='Muito ou incapaz' value='muito'/>
-            {/* <Picker.Item label='Incapaz' value='incapaz' /> */}
-          </Picker>
-        <Text style={styles.texto}>Quantas vezes você caiu no último ano ?</Text>
-        <Picker
-          placeholder="Selecione"
-          selectedValue={quedas}
-          style={{color: 'black'}}
-          onValueChange={(value) => setQuedas(value)}>
-            <Picker.Item label='Selecione' value=''/>
-            <Picker.Item label='Nenhuma' value='nenhuma'/>
-            <Picker.Item label='1 a 3' value='alguma' />
-            <Picker.Item label='4 ou mais' value='muito'/>
-          </Picker>
-          {/* <Button 
-          title="Avaliação para Sarcopenia"
-          style={styles.button}
-          titleStyle={{ color: 'white' }}
-          containerStyle={{borderRadius: 80,width: 320, marginLeft:40}} 
-          buttonStyle={{ backgroundColor: '#36b6b0',borderRadius: 80}}
-         onPress={handleAvancar}  
-          raised={true}></Button> */}
-          <Button 
-          title="Resultado da Triagem"
-          style={styles.button}
-          titleStyle={{ color: 'white' }}
-          containerStyle={{borderRadius: 80,width: 320, marginLeft:40, marginTop:10}} 
-          buttonStyle={{ backgroundColor: '#36b6b0',borderRadius: 80}}
-          onPress={handleAvancar}  
-          //onPress= {() => navigation.navigate('resultadoDetalhado', {IMC: 0, IMMEA: 0, MMEA: 0})} 
-          raised={true}></Button>
-          <Button title="Voltar" 
-          onPress={() => navigation.goBack()}
-          style={styles.button}
-          containerStyle={{borderRadius: 80,width: 320, marginLeft:40, marginTop:10}} 
-          buttonStyle={{ backgroundColor: '#bbf5f0',borderRadius: 80}}
-         raised={true}></Button>             
+        <Picker.Item label={labelSelect} value="" />
+        <Picker.Item label={labelNone} value="nenhuma" />
+        <Picker.Item label={labelSome} value="alguma" />
+        <Picker.Item label={labelALot} value="muito" />
+      </Picker>
+
+      <Text style={styles.texto}>{t('sarcfQ2')}</Text>
+      <Picker
+        selectedValue={assistencia}
+        onValueChange={(value) => setAssistencia(value)}
+        style={{ color: 'black' }}
+      >
+        <Picker.Item label={labelSelect} value="" />
+        <Picker.Item label={labelNone} value="nenhuma" />
+        <Picker.Item label={labelSome} value="alguma" />
+        <Picker.Item label={labelALot} value="muito" />
+      </Picker>
+
+      <Text style={styles.texto}>{t('sarcfQ3')}</Text>
+      <Picker
+        selectedValue={levantar}
+        onValueChange={(value) => setLevantar(value)}
+        style={{ color: 'black' }}
+      >
+        <Picker.Item label={labelSelect} value="" />
+        <Picker.Item label={labelNone} value="nenhuma" />
+        <Picker.Item label={labelSome} value="alguma" />
+        <Picker.Item label={labelALot} value="muito" />
+      </Picker>
+
+      <Text style={styles.texto}>{t('sarcfQ4')}</Text>
+      <Picker
+        selectedValue={subir}
+        onValueChange={(value) => setSubir(value)}
+        style={{ color: 'black' }}
+      >
+        <Picker.Item label={labelSelect} value="" />
+        <Picker.Item label={labelNone} value="nenhuma" />
+        <Picker.Item label={labelSome} value="alguma" />
+        <Picker.Item label={labelALot} value="muito" />
+      </Picker>
+
+      <Text style={styles.texto}>{t('sarcfQ5')}</Text>
+      <Picker
+        selectedValue={quedas}
+        onValueChange={(value) => setQuedas(value)}
+        style={{ color: 'black' }}
+      >
+        <Picker.Item label={labelSelect} value="" />
+        <Picker.Item label={labelNone} value="nenhuma" />
+        <Picker.Item label={lang === 'en' ? '1 to 3' : '1 a 3'} value="alguma" />
+        <Picker.Item label={lang === 'en' ? '4 or more' : '4 ou mais'} value="muito" />
+      </Picker>
+
+      <Button
+        title={t('sarcfResult')}
+        style={styles.button}
+        titleStyle={{ color: 'white' }}
+        containerStyle={{ borderRadius: 80, width: 320, marginLeft: 40, marginTop: 10 }}
+        buttonStyle={{ backgroundColor: '#36b6b0', borderRadius: 80 }}
+        onPress={handleAvancar}
+        raised
+      />
+      <Button
+        title={t('back')}
+        onPress={() => navigation.goBack()}
+        style={styles.button}
+        containerStyle={{ borderRadius: 80, width: 320, marginLeft: 40, marginTop: 10 }}
+        buttonStyle={{ backgroundColor: '#bbf5f0', borderRadius: 80 }}
+        raised
+      />
     </ImageBackground>
   );
 }
-const styles = StyleSheet.create({
-    background: {
-        width: '100%',
-        height: '100%',
-        },
-        container: {
-          flex: 1,
-          justifyContent: 'center',
-        },
-    texto:{
-      color:'black',
-      fontSize:20,
-      marginLeft:10,
-      fontWeight: 'bold',
-    },
-    button: {
-      backgroundColor: '#bbf5f0',
-      borderRadius: 80,
-      height: 40,
-      width: 400
-    },
 
+const styles = StyleSheet.create({
+  container: { flex: 1, justifyContent: 'center' },
+
+  // título (padrão que você pediu)
+  tituloContainer: {
+    alignItems: 'center',
+    marginTop: -10,
+    marginBottom: 10,
+    marginRight: 30,
+  },
+  titulo: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    lineHeight: 34,
+  },
+  preto: { color: '#000' },
+  vermelho: { color: '#d32f2f' },
+
+  texto: {
+    color: 'black',
+    fontSize: 20,
+    marginLeft: 10,
+    fontWeight: 'bold',
+  },
+  button: {
+    backgroundColor: '#bbf5f0',
+    borderRadius: 80,
+    height: 40,
+    width: 400,
+  },
 });

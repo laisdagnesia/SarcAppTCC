@@ -9,6 +9,7 @@ import { PacienteProvider } from "../../context/pacientes";
 import { ResultadoAntropometriaScreen } from "../resultado/resultadoAntropometria";
 import { AvaliacaoSarcopeniaScreen } from "../resultado/diagnosticoSarcopenia";
 import {ResultadoDetalhadoScreen}from "../resultado/resultadoTriagem";
+import { StartScreen } from "../inicio/start";
 import * as React from 'react';
 
 
@@ -21,6 +22,7 @@ export type NavegacaoPrincipalParams = {
     resultadoAntropometria: undefined,
     avaliacaoSarcopenia: {IMC: number, IMMEA: number, MMEA: number},
     resultadoDetalhado: {IMC: number, IMMEA: number, MMEA: number},
+    start: undefined,
 }
 
 const Stack = createStackNavigator<NavegacaoPrincipalParams>();
@@ -37,6 +39,7 @@ export const TelaConfiguracao = () => (
                 <Stack.Screen name="resultadoAntropometria"component={ResultadoAntropometriaScreen}/>
                 <Stack.Screen name="avaliacaoSarcopenia"component={AvaliacaoSarcopeniaScreen}/>
                 <Stack.Screen name="resultadoDetalhado" component={ResultadoDetalhadoScreen}/>
+                <Stack.Screen name="start" component={StartScreen}/>
             </Stack.Navigator>
         </PacienteProvider>
 

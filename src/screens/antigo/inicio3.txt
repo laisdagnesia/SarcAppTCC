@@ -1,0 +1,119 @@
+import * as React from 'react';
+import { View, Text, ImageBackground, StyleSheet, TouchableOpacity } from 'react-native';
+import { Button } from '@rneui/themed';
+import { useNavigation } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { NavegacaoPrincipalParams } from '../navigation/config';
+import { useResetarAvaliacao } from '../../hooks/useResetarAvaliacao';
+
+export function InicioScreen(props: any) {
+  type navProps = StackNavigationProp<NavegacaoPrincipalParams, 'inicio', 'menu'>;
+  const navigation = useNavigation<navProps>();
+  const resetarAvaliacao = useResetarAvaliacao();
+
+  const [idioma, setIdioma] = React.useState<'pt' | 'en'>('pt');
+
+  const handleIniciar = async () => {
+    await resetarAvaliacao();
+    navigation.navigate('cadastroPaciente');
+  };
+
+  const handleSelectLanguage = (lang: 'pt' | 'en') => {
+    setIdioma(lang);
+    // if (lang === 'en') {
+    //   navigation.navigate('start' as never);
+    // }
+  };
+
+  // Título dinâmico (muda conforme idioma)
+  const renderTitulo = () => {
+    if (idioma === 'en') {
+      return (
+        <Text style={styles.titulo}>
+          <Text style={styles.preto}>Welcome to {'\n'}</Text>
+          <Text style={styles.vermelho}>    SarcApp</Text>
+        </Text>
+      );
+    }
+    return (
+      <Text style={styles.titulo}>
+        <Text style={styles.preto}>Bem-vindo ao {'\n'}</Text>
+        <Text style={styles.vermelho}>    SarcApp</Text>
+      </Text>
+    );
+  };
+
+  return (
+    <ImageBackground style={styles.container} source={require('./../../../assets/images/start.png')}>
+      {/* Botões de idioma */}
+      <View style={styles.languageContainer}>
+        <TouchableOpacity onPress={() => handleSelectLanguage('pt')}>
+          <Text style={[styles.languageText, idioma === 'pt' && styles.selectedLanguage]}>🇧🇷 PT</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => handleSelectLanguage('en')}>
+          <Text style={[styles.languageText, idioma === 'en' && styles.selectedLanguage]}>🇺🇸 EN</Text>
+        </TouchableOpacity>
+      </View>
+
+      {/* Título colorido */}
+      <View style={styles.tituloContainer}>{renderTitulo()}</View>
+
+      {/* Botão principal */}
+      <Button
+        title={idioma === 'en' ? 'Start Evaluation' : 'Iniciar Avaliação'}
+        style={styles.button}
+        buttonStyle={styles.button}
+        titleStyle={{ color: 'white' }}
+        containerStyle={{ marginTop: 420, borderRadius: 80 }}
+        onPress={handleIniciar}
+        raised={true}
+      />
+    </ImageBackground>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  languageContainer: {
+    position: 'absolute',
+    top: 60,
+    right: 20,
+    flexDirection: 'row',
+    gap: 10,
+  },
+  languageText: {
+    fontSize: 16,
+    color: 'white',
+    opacity: 0.7,
+  },
+  selectedLanguage: {
+    fontWeight: 'bold',
+    opacity: 1,
+    textDecorationLine: 'underline',
+  },
+  tituloContainer: {
+    position: 'absolute',
+    top: 450,
+    alignItems: 'center',
+  },
+  titulo: {
+    fontSize: 38,
+    fontWeight: 'bold',
+  },
+  preto: {
+    color: '#000',
+  },
+  vermelho: {
+    color: '#c71f46', // tom vermelho elegante
+  },
+  button: {
+    backgroundColor: '#36b6b0',
+    borderRadius: 80,
+    height: 40,
+    width: 300,
+  },
+});

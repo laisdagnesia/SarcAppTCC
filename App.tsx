@@ -3,6 +3,7 @@ import { TelaConfiguracao } from './src/screens/navigation/config';
 import * as Updates from 'expo-updates';
 import { StatusBar, View } from 'react-native';
 import { PacienteProvider } from './src/context/pacientes';
+import { LanguageProvider } from './src/context/LanguageContext';
 
 export default function App() {
   const atualizar = async () => {
@@ -22,11 +23,13 @@ export default function App() {
   }, []);
 
   return (
+     <LanguageProvider>
     <PacienteProvider>
       <View style={{ flex: 1 }}>
         <StatusBar translucent backgroundColor="transparent" />
         <TelaConfiguracao />
       </View>
     </PacienteProvider>
+    </LanguageProvider>
   );
 }
